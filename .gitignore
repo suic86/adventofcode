@@ -1,3 +1,4 @@
+.DS_Store
 .adventofcode
 *.pyc
 __pycache__
