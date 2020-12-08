@@ -76,14 +76,23 @@ def _swap_instruction(instruction):
     return (i, a)
 
 
-def solution_02_brute_force_algo(program):
-    result = {True: [], False: []}
-    indices = [i for i, e in enumerate(program) if e[0] in ("nop", "jmp")]
-    for i in indices:
-        p = program[:]
-        p[i] = _swap_instruction(p[i])
-        has_infinite_loop, last_value = detect_infinite_loop(p)
-        result[has_infinite_loop].append(last_value)
+def _solution_02_brute_force_algo(program):
+    result = None
+
+    for i, (instruction, _) in enumerate(program):
+        if instruction not in ("jmp", "nop"):
+            continue
+        program[i] = _swap_instruction(program[i])
+        has_infinite_loop, last_value = detect_infinite_loop(program)
+        if not has_infinite_loop:
+            if result is not None:
+                raise Exception("More than one solution found.")
+            result = last_value
+        program[i] = _swap_instruction(program[i])
+
+    if result is None:
+        raise Exception("No solution found.")
+
     return result
 
 
@@ -96,10 +105,7 @@ def solution_01(path="input.data"):
 
 def solution_02(path="input.data"):
     program = read_program(path)
-    result = solution_02_brute_force_algo(program)
-    if len(result[False]) != 1:
-        raise Exception("Something went wrong!")
-    return result[False][0]
+    return _solution_02_brute_force_algo(program)
 
 
 if __name__ == "__main__":
