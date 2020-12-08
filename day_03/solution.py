@@ -4,24 +4,13 @@ def parse_data(path):
         return list(map(str.rstrip, f))
 
 
-def gen(size):
-    while True:
-        for i in range(size):
-            yield i
-
-
-def s_gen(size, step):
-    g = gen(size)
-    while True:
-        yield next(g)
-        for _ in range(step - 1):
-            next(g)
-
-
 def traverse(data, right_step, down_step):
-    size = len(data[0])
-    for i, r in zip(s_gen(size=size, step=right_step), data[::down_step]):
-        yield r[i]
+    h_size, v_size = len(data[0]), len(data)
+    h, v = 0, 0
+    while v < v_size:
+        yield data[v % v_size][h % h_size]
+        h += right_step
+        v += down_step
 
 
 def count_trees(data, right_step, down_step):
