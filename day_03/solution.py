@@ -8,7 +8,7 @@ def traverse(data, right_step, down_step):
     h_size, v_size = len(data[0]), len(data)
     h, v = 0, 0
     while v < v_size:
-        yield data[v % v_size][h % h_size]
+        yield data[v][h % h_size]
         h += right_step
         v += down_step
 
