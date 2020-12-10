@@ -18,7 +18,7 @@ def missing_seat(seats):
 
 def read_data(path="input.data"):
     with open(path) as fobj:
-        return list(map(str.rstrip, fobj))
+        return list(fobj)
 
 
 def seats(path="input.data"):

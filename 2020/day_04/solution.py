@@ -16,8 +16,7 @@ FIELD_KEYS = {
 def read_passport_data(path="input.data"):
     with open(path) as fobj:
         passport = []
-        for row in fobj:
-            row = row.rstrip()
+        for row in map(str.rstrip, fobj):
             if not row:
                 yield " ".join(passport)
                 passport = []

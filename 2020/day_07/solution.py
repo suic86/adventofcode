@@ -6,7 +6,7 @@ from re import sub
 
 def parse_data(path):
     with open(path) as fobj:
-        for line in map(str.rstrip, fobj):
+        for line in fobj:
             yield parse_rule(line)
 
 

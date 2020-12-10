@@ -4,7 +4,7 @@ from collections import deque
 
 def read_data(path="input.data"):
     with open(path) as source_file:
-        return list(map(int, map(str.rstrip, source_file)))
+        return list(map(int, source_file))
 
 
 def contains_sum(data, given_sum):

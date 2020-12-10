@@ -7,7 +7,7 @@ from operator import mul, sub
 
 def read_data(path):
     with open(path) as fobj:
-        return list(map(int, map(str.rstrip, fobj)))
+        return list(map(int, fobj))
 
 
 def solution_01(path="input.data"):
