@@ -25,5 +25,5 @@ def solution_02():
 
 
 if __name__ == "__main__":
-    print(solution_01())
-    print(solution_02())
+    print("Solution 01:", solution_01())
+    print("Solution 02:", solution_02())
