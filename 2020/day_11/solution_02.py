@@ -11,19 +11,15 @@ def next_seat_state(current_seat, adjacent_seats):
     return current_seat
 
 
-def visible_adjacent_seats(area, x, y):
-    x_size, y_size = len(area[0]), len(area)
+def visible_adjacent_seats(area, x, y, x_size, y_size):
     directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+    occupied_or_empty = {OCCUPIED, EMPTY}
     result = []
     for xd, yd in directions:
         xi, yi = x, y
-        while True:
-            xi += xd
-            yi += yd
-            if not (0 <= xi < x_size and 0 <= yi < y_size):
-                break
-            if area[yi][xi] in (OCCUPIED, EMPTY):
-                result.append((xi, yi))
+        while 0 <= (xi := xi + xd) < x_size and 0 <= (yi := yi + yd) < y_size:
+            if (v := area[yi][xi]) in occupied_or_empty:
+                result.append(v)
                 break
     return result
 
@@ -35,7 +31,7 @@ def next_area_state(area):
         for x in range(x_size):
             new_state[y][x] = next_seat_state(
                 area[y][x],
-                [area[j][i] for i, j in visible_adjacent_seats(area, x, y)],
+                visible_adjacent_seats(area, x, y, x_size, y_size),
             )
     return new_state
 

@@ -12,6 +12,7 @@ from util import EMPTY, FLOOR, OCCUPIED, load_test_generations
 
 # TODO: Add test for visible_adjacent_seats
 
+
 @pytest.fixture
 def testgenerations():
     return load_test_generations("test_solution_02_generations.data")

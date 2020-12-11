@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from functools import lru_cache
 from util import read_data, EMPTY, OCCUPIED
 
 
@@ -11,13 +12,14 @@ def next_seat_state(current_seat, adjacent_seats):
     return current_seat
 
 
+@lru_cache(maxsize=8736)
 def adjacent_seats(x_size, y_size, x, y):
-    return (
+    adjacents = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+    return [
         (x_i, y_i)
-        for x_i in range(max(x - 1, 0), min(x + 2, x_size))
-        for y_i in range(max(y - 1, 0), min(y + 2, y_size))
-        if x_i != x or y_i != y
-    )
+        for x_d, y_d in adjacents
+        if 0 <= (x_i := x + x_d) < x_size and 0 <= (y_i := y + y_d) < y_size
+    ]
 
 
 def next_area_state(area):

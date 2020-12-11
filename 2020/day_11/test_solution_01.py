@@ -61,6 +61,5 @@ def test_solution_01_test_data():
     assert solution_01("test_solution_01.data") == 37
 
 
-@pytest.mark.slow
 def test_solution_01_input_data():
     assert solution_01("input.data") == 2204
