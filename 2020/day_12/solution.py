@@ -17,42 +17,37 @@ def parse_action(instruction):
 
 
 def solution_01(path="input.data"):
-    # directions
-    ds = "ESWN"
-    # distances
-    s = [0, 0, 0, 0]
+    directions = "ESWN"
+    distances = dict.fromkeys(directions, 0)
     # direction pointer
     p = 0
     for d, v in read_data(path):
-        if d in ds:
-            s[ds.index(d)] += v
+        if d in directions:
+            distances[d] += v
         elif d == "F":
-            s[p] += v
+            distances[directions[p]] += v
         elif d == "R":
-            p = (p + (v % 360) // 90) % 4
+            p = (p + v // 90) % 4
         elif d == "L":
-            p = (p - (v % 360) // 90) % 4
-    return abs(s[0] - s[2]) + abs(s[1] - s[3])
+            p = (p - v // 90) % 4
+    return abs(distances['N'] - distances['S']) + abs(distances['E'] - distances['W'])
 
 
 def solution_02(path="input.data"):
-    # directions
-    ds = "ESWN"
-    # view point
-    wp = deque([10, 0, 0, 1])
-    # distances
-    s = [0, 0, 0, 0]
+    directions = "ESWN"
+    waypoint = deque([10, 0, 0, 1])
+    distances = [0, 0, 0, 0]
 
     for d, v in read_data(path):
-        if d in ds:
-            wp[ds.index(d)] += v
+        if d in directions:
+            waypoint[directions.index(d)] += v
         elif d == "R":
-            wp.rotate((v % 360) // 90)
+            waypoint.rotate(v // 90)
         elif d == "L":
-            wp.rotate(-(v % 360) // 90)
+            waypoint.rotate(-v // 90)
         elif d == "F":
-            s = [i + j * v for i, j in zip(s, wp)]
-    return abs(s[0] - s[2]) + abs(s[1] - s[3])
+            distances = [i + j * v for i, j in zip(distances, waypoint)]
+    return abs(distances[0] - distances[2]) + abs(distances[1] - distances[3])
 
 
 if __name__ == "__main__":
