@@ -19,7 +19,7 @@ def testgenerations():
 
 
 @pytest.mark.parametrize(
-    "current_seat,adjacent_seats,expected",
+    "seat,adjacent_seats,expected",
     [
         (EMPTY, [EMPTY, EMPTY, EMPTY, FLOOR, FLOOR], OCCUPIED),
         (EMPTY, [EMPTY, EMPTY, EMPTY, FLOOR, OCCUPIED], EMPTY),
@@ -28,8 +28,8 @@ def testgenerations():
         (OCCUPIED, [OCCUPIED, OCCUPIED, OCCUPIED, OCCUPIED, OCCUPIED, FLOOR], EMPTY),
     ],
 )
-def test_next_seat_state(current_seat, adjacent_seats, expected):
-    assert next_seat_state(current_seat, adjacent_seats) == expected
+def test_next_seat_state(seat, adjacent_seats, expected):
+    assert next_seat_state(seat, adjacent_seats) == expected
 
 
 def test_next_seat_state_single_state_change(testgenerations):

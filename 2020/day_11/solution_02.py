@@ -11,27 +11,29 @@ def next_seat_state(current_seat, adjacent_seats):
     return current_seat
 
 
-def visible_adjacent_seats(area, x, y, x_size, y_size):
+def visible_adjacent_seats(area, seat_column, seat_row, column_count, row_count):
     directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
-    occupied_or_empty = {OCCUPIED, EMPTY}
     result = []
-    for xd, yd in directions:
-        xi, yi = x, y
-        while 0 <= (xi := xi + xd) < x_size and 0 <= (yi := yi + yd) < y_size:
-            if (v := area[yi][xi]) in occupied_or_empty:
-                result.append(v)
+    for column_difference, row_difference in directions:
+        column, row = seat_column, seat_row
+        while (
+            0 <= (column := column + column_difference) < column_count
+            and 0 <= (row := row + row_difference) < row_count
+        ):
+            if (seat_state := area[row][column]) in {OCCUPIED, EMPTY}:
+                result.append(seat_state)
                 break
     return result
 
 
 def next_area_state(area):
-    x_size, y_size = len(area[0]), len(area)
-    new_state = [[None for _ in range(x_size)] for _ in range(y_size)]
-    for y in range(y_size):
-        for x in range(x_size):
-            new_state[y][x] = next_seat_state(
-                area[y][x],
-                visible_adjacent_seats(area, x, y, x_size, y_size),
+    column_count, row_count = len(area[0]), len(area)
+    new_state = [[None for _ in range(column_count)] for _ in range(row_count)]
+    for row in range(row_count):
+        for column in range(column_count):
+            new_state[row][column] = next_seat_state(
+                area[row][column],
+                visible_adjacent_seats(area, column, row, column_count, row_count),
             )
     return new_state
 

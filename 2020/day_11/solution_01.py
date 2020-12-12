@@ -13,23 +13,29 @@ def next_seat_state(current_seat, adjacent_seats):
 
 
 @lru_cache(maxsize=8736)
-def adjacent_seats(x_size, y_size, x, y):
+def adjacent_seats(column_count, row_count, column, row):
     adjacents = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
     return [
-        (x_i, y_i)
-        for x_d, y_d in adjacents
-        if 0 <= (x_i := x + x_d) < x_size and 0 <= (y_i := y + y_d) < y_size
+        (adjacent_column, adjacent_row)
+        for row_difference, column_difference in adjacents
+        if 0 <= (adjacent_column := column + column_difference) < column_count
+        and 0 <= (adjacent_row := row + row_difference) < row_count
     ]
 
 
 def next_area_state(area):
-    x_size, y_size = len(area[0]), len(area)
-    new_state = [[None for _ in range(x_size)] for _ in range(y_size)]
-    for y in range(y_size):
-        for x in range(x_size):
-            new_state[y][x] = next_seat_state(
-                area[y][x],
-                [area[y_i][x_i] for x_i, y_i in adjacent_seats(x_size, y_size, x, y)],
+    column_count, row_count = len(area[0]), len(area)
+    new_state = [[None for _ in range(column_count)] for _ in range(row_count)]
+    for row in range(row_count):
+        for column in range(column_count):
+            new_state[row][column] = next_seat_state(
+                area[row][column],
+                [
+                    area[adjacent_row][adjacent_column]
+                    for adjacent_column, adjacent_row in adjacent_seats(
+                        column_count, row_count, column, row
+                    )
+                ],
             )
     return new_state
 
