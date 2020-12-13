@@ -16,7 +16,6 @@ def test_solution_01(source, expected):
     assert solution_01(source) == expected
 
 
-@pytest.mark.timeout(1)
 def test_solution_02_test_data():
     solution = solution_02(path="test_solution_01.data")
     assert solution == 1068781
