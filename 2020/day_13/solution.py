@@ -21,7 +21,7 @@ def solution_01(path="input.data"):
 
 
 def solution_02(path="input.data"):
-    # TODO: Refactor, document and optimize (for the last bus only the *first* value is needed
+    # TODO: Refactor, document and optimize (for the last bus only the *first* value is needed)
     _, buses = read_data(path)
     first = buses[0][1]
     second = first + first
