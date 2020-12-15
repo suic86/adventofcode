@@ -1,5 +1,4 @@
 from collections import defaultdict
-from itertools import islice, count
 
 
 def read_data(path="input.data"):
@@ -15,7 +14,7 @@ def solution(init, index):
 
     for i, n in enumerate(init):
         indices[n].append(i)
-   
+
     for i in range(len(init), index):
         idx = indices[n]
         n = len(idx) != 1 and int.__rsub__(*idx[-2:]) or 0

@@ -1,7 +1,6 @@
 import pytest
 
-from itertools import islice
-from solution import solution, solution_01
+from solution import solution, solution_01, solution_02
 
 
 @pytest.mark.parametrize(
