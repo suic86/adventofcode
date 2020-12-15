@@ -1,2 +1,2 @@
 pytest==6.1.1
-pyflakes=2.2.0
+pyflakes==2.2.0
