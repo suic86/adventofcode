@@ -1,29 +1,32 @@
 import pytest
 
 from itertools import islice
-from solution import gen_solution, solution_01
+from solution import solution, solution_01
 
 
-def test_solution_01_gen():
-    result = [
-        0,
-        3,
-        6,
-        0,
-        3,
-        3,
-        1,
-        0,
-        4,
-        0,
-        2,
-        0,
-        2,
-        2,
-        1,
-        8,
-    ]
-    assert list(islice(gen_solution([0, 3, 6]), 16)) == result
+@pytest.mark.parametrize(
+    "index,expected",
+    [
+        (1, 0),
+        (2, 3),
+        (3, 6),
+        (4, 0),
+        (5, 3),
+        (6, 3),
+        (7, 1),
+        (8, 0),
+        (9, 4),
+        (10, 0),
+        (11, 2),
+        (12, 0),
+        (13, 2),
+        (14, 2),
+        (15, 1),
+        (16, 8),
+    ],
+)
+def test_solution(index, expected):
+    assert solution([0, 3, 6], index) == expected
 
 
 @pytest.mark.parametrize(
