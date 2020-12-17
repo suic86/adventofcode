@@ -17,7 +17,7 @@ def read_data(path="input.data", dimensions=3):
         for r, row in enumerate(map(str.rstrip, fobj)):
             for c, column in enumerate(row):
                 if column == "#":
-                    sparse_matrix[tuple(fill(dimensions, [r, c]))] = column
+                    sparse_matrix[tuple(fill(dimensions, [r, c]))] = True
     return sparse_matrix
 
 
@@ -39,29 +39,27 @@ def next_state(state, dimensions=3):
                         if not any(t):
                             continue
 
-                        ac += state.get(tuple(map(add, neighbour, t)), ".") == "#"
+                        ac += state.get(tuple(map(add, neighbour, t)), False)
 
                         if ac > 3:
                             break
                     else:
                         if ac == 3:
-                            new_state[neighbour] = "#"
+                            new_state[neighbour] = True
                 continue
 
-            if state[neighbour] == "#":
+            if state[neighbour]:
                 active += 1
 
         # If a cube is active and exactly 2 or 3 of its neighbors are also active, the cube remains active.
         # Otherwise, the cube becomes inactive.
         # If a cube is inactive but exactly 3 of its neighbors are active, the cube becomes active. Otherwise, the cube remains inactive.
-        new_state[cube] = (
-            "#" if (value == "#" and active in (2, 3) or active == 3) else "."
-        )
+        new_state[cube] = value and active in (2, 3) or active == 3
     return new_state
 
 
 def active_cell_count(state):
-    return sum(value == "#" for value in state.values())
+    return sum(state.values())
 
 
 def solution_01(path="input.data"):

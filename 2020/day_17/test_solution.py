@@ -2,23 +2,23 @@ import pytest
 from solution import read_data, next_state, active_cell_count, solution_01, solution_02
 
 test_solution_01_data = {
-    (0, 1, 0): "#",
+    (0, 1, 0): True,
     # ---------------------
-    (1, 2, 0): "#",
+    (1, 2, 0): True,
     # ---------------------
-    (2, 0, 0): "#",
-    (2, 1, 0): "#",
-    (2, 2, 0): "#",
+    (2, 0, 0): True,
+    (2, 1, 0): True,
+    (2, 2, 0): True,
 }
 
 test_solution_02_data = {
-    (0, 1, 0, 0): "#",
+    (0, 1, 0, 0): True,
     # ---------------------
-    (1, 2, 0, 0): "#",
+    (1, 2, 0, 0): True,
     # ---------------------
-    (2, 0, 0, 0): "#",
-    (2, 1, 0, 0): "#",
-    (2, 2, 0, 0): "#",
+    (2, 0, 0, 0): True,
+    (2, 1, 0, 0): True,
+    (2, 2, 0, 0): True,
 }
 
 
@@ -62,5 +62,5 @@ def test_solution_01(source, expected):
         ("input.data", 1816),
     ],
 )
-def test_solution_01(source, expected):
+def test_solution_02(source, expected):
     assert solution_02(source) == expected
