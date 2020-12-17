@@ -1,5 +1,5 @@
 import pytest
-from solution import read_data, next_state, active_cell_count, solution_01, solution_02
+from solution import read_data, next_state, solution_01, solution_02
 
 test_solution_01_data = {
     (0, 1, 0),
@@ -25,18 +25,18 @@ def test_read_data():
 
 def test_next_state_solution_01():
     ns = next_state(test_solution_01_data)
-    assert active_cell_count(ns) == 11
+    assert len(ns) == 11
     ns = next_state(ns)
-    assert active_cell_count(ns) == 21
+    assert len(ns) == 21
     ns = next_state(ns)
-    assert active_cell_count(ns) == 38
+    assert len(ns) == 38
 
 
 def test_next_state_solution_02():
     ns = next_state(test_solution_02_data, dimensions=4)
-    assert active_cell_count(ns) == 29
+    assert len(ns) == 29
     ns = next_state(ns, dimensions=4)
-    assert active_cell_count(ns) == 60
+    assert len(ns) == 60
 
 
 @pytest.mark.parametrize(

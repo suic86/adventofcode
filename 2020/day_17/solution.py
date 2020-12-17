@@ -1,3 +1,4 @@
+from functools import lru_cache
 from itertools import product
 from operator import add
 
@@ -21,14 +22,21 @@ def read_data(path="input.data", dimensions=3):
     return active_cubes
 
 
+@lru_cache(maxsize=3)
+def adjancent_cells(dimensions=3):
+    cells = list(product((-1, 0, 1), repeat=dimensions))
+    cells.remove(tuple(0 for _ in range(dimensions)))
+    return cells
+
+
 def next_state(state, dimensions=3):
     new_state = set()
+
+    adjancents = adjancent_cells(dimensions)
+
     for cube in state:
         active = 0
-        for ds in product((-1, 0, 1), repeat=dimensions):
-            if not any(ds):
-                continue
-
+        for ds in adjancents:
             neighbour = tuple(map(add, cube, ds))
 
             if neighbour in state:
@@ -38,12 +46,8 @@ def next_state(state, dimensions=3):
             if neighbour not in new_state:
                 # If a cube is inactive but exactly 3 of its neighbors are active, the cube becomes active. Otherwise, the cube remains inactive.
                 ac = 0
-                for t in product((-1, 0, 1), repeat=dimensions):
-                    if not any(t):
-                        continue
-
+                for t in adjancents:
                     ac += tuple(map(add, neighbour, t)) in state
-
                     if ac > 3:
                         break
                 else:
@@ -57,22 +61,18 @@ def next_state(state, dimensions=3):
     return new_state
 
 
-def active_cell_count(state):
-    return len(state)
-
-
 def solution_01(path="input.data"):
     state = read_data(path)
     for _ in range(6):
         state = next_state(state)
-    return active_cell_count(state)
+    return len(state)
 
 
 def solution_02(path="input.data"):
     state = read_data(path, dimensions=4)
     for _ in range(6):
         state = next_state(state, dimensions=4)
-    return active_cell_count(state)
+    return len(state)
 
 
 if __name__ == "__main__":
