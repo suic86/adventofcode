@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 import re
 
-from functools import lru_cache
-from itertools import product
-
 
 def read_data(path="input.data"):
     rules = {}
@@ -25,7 +22,6 @@ def read_data(path="input.data"):
 def convert_to_regex(rule, rules):
     terminals = "ab"
 
-    rule_number = rule
     rule = rules[rule]
 
     if rule in terminals:

@@ -1,4 +1,3 @@
-import re
 import pytest
 from solution import (
     read_data,
