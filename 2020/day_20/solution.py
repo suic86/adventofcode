@@ -4,6 +4,17 @@ from itertools import product, starmap
 from operator import mul
 
 
+MONSTER = [
+    "                  # ",
+    "#    ##    ##    ###",
+    " #  #  #  #  #  #   ",
+]
+
+
+MHEIGHT = len(MONSTER)
+MWIDTH = len(MONSTER[0])
+
+
 def read_data(path="input.data"):
     tiles = defaultdict(list)
     with open(path) as fobj:
@@ -19,11 +30,7 @@ def read_data(path="input.data"):
 
 
 def is_match(first, second):
-    return (
-        first == second
-        or first[::-1] == second
-        or first == second[::-1]
-    )
+    return first == second or first[::-1] == second or first == second[::-1]
 
 
 class Tile:
@@ -36,10 +43,10 @@ class Tile:
         self._right = None
 
     def __hash__(self):
-        return hash(self._id) 
+        return hash(self._id)
 
     def __eq__(self, other):
-        return self.id == other.id 
+        return self.id == other.id
 
     @property
     def id(self):
@@ -49,7 +56,7 @@ class Tile:
     def data(self):
         return self._data
 
-    @property    
+    @property
     def top(self):
         return self._top
 
@@ -71,7 +78,7 @@ class Tile:
 
     @property
     def borders(self):
-        return [self.top, self.left, self.bottom, self.right]    
+        return [self.top, self.left, self.bottom, self.right]
 
     def match_any_border(self, other):
         return any(starmap(is_match, product(self.borders, other.borders)))
@@ -93,9 +100,46 @@ def prod(seq):
 
 
 def solution_01(path="input.data"):
-    corner_tiles = [tile for tile, matching in matching_tiles(read_data(path)).items() if len(matching) == 2]
+    corner_tiles = [
+        tile
+        for tile, matching in matching_tiles(read_data(path)).items()
+        if len(matching) == 2
+    ]
     return prod(corner_tiles)
+
+
+def trim_borders(tile_data):
+    return [row[1:-1] for row in tile_data[1:-1]]
+
+
+def assemble_image(tile_matrix, tiles):
+    collected = [[trim_borders(tiles[column]) for column in row] for row in tile_matrix]
+    assembled = []
+    for row in collected:
+        merged_rows = ["".join(column[i] for column in row) for i in range(len(row[0]))]
+        assembled += merged_rows
+    return assembled
+
+
+def count_monsters(image):
+    monsters = 0
+    for r in range(len(image) - MHEIGHT):
+        for c in range(len(image[0]) - MWIDTH):
+            monsters += all(
+                MONSTER[dr][dc] == image[r + dr][c + dc]
+                for dr in range(MHEIGHT)
+                for dc in range(MWIDTH)
+                if MONSTER[dr][dc] == "#"
+            )
+    return monsters
+
+
+# def main():
+#     from pprint import pprint
+#     from test_solution_data import ASSEMBLED_TILES, PARSED_TILES
+#     pprint(assemble_image(ASSEMBLED_TILES, PARSED_TILES))
 
 
 if __name__ == "__main__":
     print("Solution 01:", solution_01())
+    # main()
