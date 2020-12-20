@@ -37,16 +37,16 @@ class Tile:
     def __init__(self, id, data):
         self._id = id
         self._data = data
-        self._top = data[0]
-        self._bottom = data[-1]
-        self._left = None
-        self._right = None
+        self._operations = []
 
     def __hash__(self):
         return hash(self._id)
 
     def __eq__(self, other):
         return self.id == other.id
+
+    def __str__(self):
+        return f"Tile({self.id})"
 
     @property
     def id(self):
@@ -58,23 +58,19 @@ class Tile:
 
     @property
     def top(self):
-        return self._top
+        return self._data[0]
 
     @property
     def bottom(self):
-        return self._bottom
+        return self._data[-1]
 
     @property
     def left(self):
-        if self._left is None:
-            self._left = "".join(row[0] for row in self.data)
-        return self._left
+        return "".join(row[0] for row in self.data)
 
     @property
     def right(self):
-        if self._right is None:
-            self._right = "".join(row[-1] for row in self.data)
-        return self._right
+        return "".join(row[-1] for row in self.data)
 
     @property
     def borders(self):
@@ -82,6 +78,46 @@ class Tile:
 
     def match_any_border(self, other):
         return any(starmap(is_match, product(self.borders, other.borders)))
+
+    def _rot_clockwise(self, turns=1):
+        data = self._data
+        for _ in range(turns):
+            data = list(map("".join, zip(*reversed(data))))
+        self._data = data
+        self._operations.append((self._rot_counterclockwise, turns))
+
+    def _rot_counterclockwise(self, turns=1):
+        data = self._data
+        for _ in range(turns):
+            data = list(map("".join, (zip(*data))))[::-1]
+        self._data = data
+
+    def vflip(self):
+        self._data = self._data[::-1]
+        self._operations.append(self.vflip)
+
+    def hflip(self):
+        self._data = [row[::-1] for row in self._data]
+        self._operations.append(self.hflip)
+
+    def rot90(self):
+        self._rot_clockwise()
+
+    def rot180(self):
+        self._rot_clockwise(2)
+
+    def rot270(self):
+        self._rot_clockwise(3)
+
+    def revert(self):
+        if not self._operations:
+            return
+        operation = self._operations.pop()
+        if isinstance(operation, tuple):
+            operation, *args = operation
+            operation(*args)
+        else:
+            operation()
 
 
 def matching_tiles(tiles):
@@ -134,12 +170,16 @@ def count_monsters(image):
     return monsters
 
 
-# def main():
-#     from pprint import pprint
-#     from test_solution_data import ASSEMBLED_TILES, PARSED_TILES
-#     pprint(assemble_image(ASSEMBLED_TILES, PARSED_TILES))
+def clasify_match(first, second):
+    borders = ["top", "left", "bottom", "right"]
+    for i, df in enumerate(first.borders):
+        for j, ds in enumerate(second.borders):
+            if df == ds:
+                return borders[i], borders[j], False
+            elif df[::-1] == ds:
+                return borders[i], borders[j], True
+    return None
 
 
 if __name__ == "__main__":
     print("Solution 01:", solution_01())
-    # main()
