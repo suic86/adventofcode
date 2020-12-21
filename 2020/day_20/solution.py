@@ -37,7 +37,6 @@ class Tile:
     def __init__(self, id, data):
         self._id = id
         self._data = data
-        self._operations = []
         self._top = None
         self._bottom = None
         self._right = None
@@ -103,25 +102,14 @@ class Tile:
             data = list(map("".join, zip(*reversed(data))))
         self._data = data
         self._reset_borders()
-        self._operations.append((self._rot_counterclockwise, turns))
-
-
-    def _rot_counterclockwise(self, turns=1):
-        data = self._data
-        for _ in range(turns):
-            data = list(map("".join, (zip(*data))))[::-1]
-        self._data = data
-        self._reset_borders()
 
     def vflip(self):
         self._data = self._data[::-1]
         self._reset_borders()
-        self._operations.append(self.vflip)
 
     def hflip(self):
         self._data = [row[::-1] for row in self._data]
         self._reset_borders()
-        self._operations.append(self.hflip)
 
     def rot90(self):
         self._rot_clockwise()
@@ -134,16 +122,6 @@ class Tile:
     def rot270(self):
         self._rot_clockwise(3)
         self._reset_borders()
-
-    def revert(self):
-        if not self._operations:
-            return
-        operation = self._operations.pop()
-        if isinstance(operation, tuple):
-            operation, *args = operation
-            operation(*args)
-        else:
-            operation()
 
 
 def matching_tiles(tiles):

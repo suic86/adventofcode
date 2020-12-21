@@ -18,6 +18,11 @@ from test_solution_data import (
 )
 
 
+@pytest.fixture
+def simple_tile():
+    return Tile(0, ["123", "456", "789"])
+
+
 def test_read_data():
     assert read_data("test_solution_01.data") == PARSED_TILES
 
@@ -33,40 +38,45 @@ def test_tile():
     assert tile.borders == ["..##.#..#.", ".#####..#.", "..###..###", "...#.##..#"]
 
 
-def test_tile_rotation_flip():
-    tile = Tile(0, ["123", "456", "789"])
-    tile.vflip()
-    assert tile.data == ["789", "456", "123"]
-    tile.vflip()
-    assert tile.data == ["123", "456", "789"]
-    tile.hflip()
-    assert tile.data == ["321", "654", "987"]
-    tile.hflip()
-    assert tile.data == ["123", "456", "789"]
-    tile.rot90()
-    assert tile.data == ["741", "852", "963"]
-    tile.rot270()
-    assert tile.data == ["123", "456", "789"]
-    tile.rot180()
-    assert tile.data == ["987", "654", "321"]
-    tile.rot180()
-    assert tile.data == ["123", "456", "789"]
+def test_tile_vertical_flip(simple_tile):
+    simple_tile.vflip()
+    assert simple_tile.data == ["789", "456", "123"]
+    assert simple_tile.top == "789"
+    assert simple_tile.bottom == "123"
+    assert simple_tile.left == "741"
+    assert simple_tile.right == "963"
+    simple_tile.vflip()
+    assert simple_tile.data == ["123", "456", "789"]
 
 
-def test_title_revert():
-    tile = Tile(0, ["123", "456", "789"])
-    tile.vflip()
-    tile.revert()
-    assert tile.data == ["123", "456", "789"]
-    tile.rot90()
-    assert tile.data == ["741", "852", "963"]
-    tile.revert()
-    assert tile.data == ["123", "456", "789"]
-    tile.vflip()
-    tile.rot90()
-    tile.revert()
-    tile.revert()
-    assert tile.data == ["123", "456", "789"]
+def test_tile_horizontal_flip(simple_tile):
+    simple_tile.hflip()
+    assert simple_tile.data == ["321", "654", "987"]
+    simple_tile.hflip()
+    assert simple_tile.data == ["123", "456", "789"]
+
+
+def test_tile_rot90(simple_tile):
+    simple_tile.rot90()
+    assert simple_tile.data == ["741", "852", "963"]
+    assert simple_tile.top == "741"
+    assert simple_tile.bottom == "963"
+    assert simple_tile.left == "789"
+    assert simple_tile.right == "123"
+
+
+def test_tile_rot180(simple_tile):
+    simple_tile.rot180()
+    assert simple_tile.data == ["987", "654", "321"]
+    simple_tile.rot180()
+    assert simple_tile.data == ["123", "456", "789"]
+
+
+def test_tile_rot270(simple_tile):
+    simple_tile.rot270()
+    assert simple_tile.data == ["369", "258", "147"]
+    simple_tile.rot90()
+    assert simple_tile.data == ["123", "456", "789"]
 
 
 @pytest.mark.parametrize(
