@@ -38,6 +38,10 @@ class Tile:
         self._id = id
         self._data = data
         self._operations = []
+        self._top = None
+        self._bottom = None
+        self._right = None
+        self._left = None
 
     def __hash__(self):
         return hash(self._id)
@@ -58,19 +62,27 @@ class Tile:
 
     @property
     def top(self):
-        return self._data[0]
+        if self._top is None:
+            self._top = self._data[0]
+        return self._top
 
     @property
     def bottom(self):
-        return self._data[-1]
+        if self._bottom is None:
+            self._bottom = self._data[-1]
+        return self._bottom
 
     @property
     def left(self):
-        return "".join(row[0] for row in self.data)
+        if self._left is None:
+            self._left = "".join(row[0] for row in self.data)
+        return self._left
 
     @property
     def right(self):
-        return "".join(row[-1] for row in self.data)
+        if self._right is None:
+            self._right = "".join(row[-1] for row in self.data)
+        return self._right
 
     @property
     def borders(self):
@@ -79,35 +91,49 @@ class Tile:
     def match_any_border(self, other):
         return any(starmap(is_match, product(self.borders, other.borders)))
 
+    def _reset_borders(self):
+        self._top = None
+        self._bottom = None
+        self._right = None
+        self._left = None
+
     def _rot_clockwise(self, turns=1):
         data = self._data
         for _ in range(turns):
             data = list(map("".join, zip(*reversed(data))))
         self._data = data
+        self._reset_borders()
         self._operations.append((self._rot_counterclockwise, turns))
+
 
     def _rot_counterclockwise(self, turns=1):
         data = self._data
         for _ in range(turns):
             data = list(map("".join, (zip(*data))))[::-1]
         self._data = data
+        self._reset_borders()
 
     def vflip(self):
         self._data = self._data[::-1]
+        self._reset_borders()
         self._operations.append(self.vflip)
 
     def hflip(self):
         self._data = [row[::-1] for row in self._data]
+        self._reset_borders()
         self._operations.append(self.hflip)
 
     def rot90(self):
         self._rot_clockwise()
+        self._reset_borders()
 
     def rot180(self):
         self._rot_clockwise(2)
+        self._reset_borders()
 
     def rot270(self):
         self._rot_clockwise(3)
+        self._reset_borders()
 
     def revert(self):
         if not self._operations:
