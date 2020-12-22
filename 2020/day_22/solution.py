@@ -37,9 +37,9 @@ def play(player1, player2):
             return player1
 
 
-def play_recursive(player1, player2, previous_decks=None):
-    if previous_decks is None:
-        previous_decks = (set(), set())
+def play_recursive(player1, player2, seen_decks=None):
+    if seen_decks is None:
+        seen_decks = (set(), set())
 
     player1, player2 = map(deque, [player1, player2])
 
@@ -48,14 +48,14 @@ def play_recursive(player1, player2, previous_decks=None):
         # that had exactly the same cards in the same order in the same players' decks,
         # the game instantly ends in a win for player 1.
         # Previous rounds from other games are not considered.
-        previous_deck1 = tuple(player1)
-        previous_deck2 = tuple(player2)
+        deck1 = tuple(player1)
+        deck2 = tuple(player2)
 
-        if previous_deck1 in previous_decks[0] and previous_deck2 in previous_decks[1]:
+        if deck1 in seen_decks[0] and deck2 in seen_decks[1]:
             return 1, player1
 
-        previous_decks[0].add(previous_deck1)
-        previous_decks[1].add(previous_deck2)
+        seen_decks[0].add(deck1)
+        seen_decks[1].add(deck2)
 
         card1 = player1.popleft()
         card2 = player2.popleft()
