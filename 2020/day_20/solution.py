@@ -204,7 +204,7 @@ def _get_with_same_lengths(paths):
 def append_left(tile, to_tile):
     while True:
         border, adjacent, flipped = classify_match(tile, to_tile)
-        if border == 'left' and adjacent == 'right':
+        if border == "left" and adjacent == "right":
             if flipped:
                 tile.vflip()
             return tile
@@ -214,7 +214,7 @@ def append_left(tile, to_tile):
 def append_below(tile, to_tile):
     while True:
         border, adjacent, flipped = classify_match(tile, to_tile)
-        if border == 'top' and adjacent == 'bottom':
+        if border == "top" and adjacent == "bottom":
             if flipped:
                 tile.hflip()
             return tile
@@ -248,8 +248,11 @@ def assemble_tiles(path="input.data"):
         if ct != start.id
     ]
 
-    assert {classify_match(start, first)[0], classify_match(start, second)[0]} == {'bottom', 'right'}
-    
+    assert {classify_match(start, first)[0], classify_match(start, second)[0]} == {
+        "bottom",
+        "right",
+    }
+
     left, top = _get_with_same_lengths(paths_to_other_corners)
 
     # HACK
@@ -270,51 +273,82 @@ def assemble_tiles(path="input.data"):
 
     # collect top border
     for i, t in enumerate(top[1:], 1):
-        t = Tile(t, data[t]) 
-        append_left(t, tile_matrix[0][i-1])
+        t = Tile(t, data[t])
+        append_left(t, tile_matrix[0][i - 1])
         tile_matrix[0][i] = t
-    
+
     # collect left border
     for i, t in enumerate(left[1:], 1):
-        t = Tile(t, data[t]) 
-        append_below(t, tile_matrix[i-1][0])
+        t = Tile(t, data[t])
+        append_below(t, tile_matrix[i - 1][0])
         tile_matrix[i][0] = t
 
     visited = set(top) | set(left)
-    
+
     # fill the rest left-right top-down
     for c in range(1, len(top)):
         for r in range(1, len(left)):
-            ti = mts[tile_matrix[r-1][c].id] & mts[tile_matrix[r][c-1].id] - visited
+            ti = mts[tile_matrix[r - 1][c].id] & mts[tile_matrix[r][c - 1].id] - visited
             assert len(ti) == 1
             ti = ti.pop()
             visited.add(ti)
             t = Tile(ti, data[ti])
-            append_left(t, tile_matrix[r][c-1])
+            append_left(t, tile_matrix[r][c - 1])
             tile_matrix[r][c] = t
 
     return tile_matrix
 
 
 def assemble_image(tile_matrix):
-      collected = [
-            [trim_borders(column.data) for column in row]
-            for row in tile_matrix
-      ]
-      assembled = []
-      for row in collected:
-          merged_rows = ["".join(column[i] for column in row) for i in range(len(row[0]))]
-          assembled += merged_rows
-      return assembled
+    collected = [[trim_borders(column.data) for column in row] for row in tile_matrix]
+    assembled = []
+    for row in collected:
+        merged_rows = ["".join(column[i] for column in row) for i in range(len(row[0]))]
+        assembled += merged_rows
+    return assembled
+
+
+def find_monsters(image):
+    image = Tile(0, image)
+    for _ in range(4):
+        image.rot90()
+        c = count_monsters(image.data)
+        if c != 0:
+            return c
+
+    image.hflip()
+    for _ in range(4):
+        image.rot90()
+        c = count_monsters(image.data)
+        if c != 0:
+            return c
+
+    image.hflip()
+    image.vflip()
+
+    for _ in range(4):
+        image.rot90()
+        c = count_monsters(image.data)
+        if c != 0:
+            return c
+
+    image.hflip()
+    for _ in range(4):
+        c = count_monsters(image.data)
+        if c != 0:
+            return c
+
+    raise ValueError("No monsters found.")
 
 
 def solution_02(path="input.data"):
-    pass 
+    image = assemble_image(assemble_tiles(path))
+    hash_count = sum(row.count("#") for row in image)
+    monster_hash_count = sum(row.count("#") for row in MONSTER)
+    mc = find_monsters(image)
+    return hash_count - monster_hash_count * mc
 
 
 if __name__ == "__main__":
     print("Solution 01:", solution_01())
-    from pprint import pprint
-    pprint(assemble_tiles("test_solution_01.data"))
-    # print(50 * "-")
-    # pprint(assemble_tiles("input.data"))
+    print("Solution 02:", solution_02())
