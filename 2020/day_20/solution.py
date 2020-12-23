@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict, deque
 from functools import reduce
 from itertools import product, starmap
 from operator import mul
@@ -49,6 +49,9 @@ class Tile:
         return self.id == other.id
 
     def __str__(self):
+        return f"Tile({self.id})"
+
+    def __repr__(self):
         return f"Tile({self.id})"
 
     @property
@@ -152,15 +155,6 @@ def trim_borders(tile_data):
     return [row[1:-1] for row in tile_data[1:-1]]
 
 
-def assemble_image(tile_matrix, tiles):
-    collected = [[trim_borders(tiles[column]) for column in row] for row in tile_matrix]
-    assembled = []
-    for row in collected:
-        merged_rows = ["".join(column[i] for column in row) for i in range(len(row[0]))]
-        assembled += merged_rows
-    return assembled
-
-
 def count_monsters(image):
     monsters = 0
     for r in range(len(image) - MHEIGHT):
@@ -174,7 +168,7 @@ def count_monsters(image):
     return monsters
 
 
-def clasify_match(first, second):
+def classify_match(first, second):
     borders = ["top", "left", "bottom", "right"]
     for i, df in enumerate(first.borders):
         for j, ds in enumerate(second.borders):
@@ -185,5 +179,142 @@ def clasify_match(first, second):
     return None
 
 
+def shortest_path(graph, start, goal):
+    queue = deque([(start, [start])])
+    while queue:
+        (vertex, path) = queue.popleft()
+        for next_node in graph[vertex] - set(path):
+            if next_node == goal:
+                return path + [next_node]
+            else:
+                queue.append((next_node, path + [next_node]))
+    return None
+
+
+def _get_with_same_lengths(paths):
+    p1, p2, p3 = paths
+    l1, l2, l3 = map(len, paths)
+    if l1 == l2:
+        return p1, p2
+    elif l1 == l3:
+        return p1, p3
+    return p2, p3
+
+
+def append_left(tile, to_tile):
+    while True:
+        border, adjacent, flipped = classify_match(tile, to_tile)
+        if border == 'left' and adjacent == 'right':
+            if flipped:
+                tile.vflip()
+            return tile
+        tile.rot90()
+
+
+def append_below(tile, to_tile):
+    while True:
+        border, adjacent, flipped = classify_match(tile, to_tile)
+        if border == 'top' and adjacent == 'bottom':
+            if flipped:
+                tile.hflip()
+            return tile
+        tile.rot90()
+
+
+def assemble_tiles(path="input.data"):
+    data = read_data(path)
+    mts = matching_tiles(data)
+
+    corner_tiles = {k: v for k, v in mts.items() if len(v) == 2}
+    perimeter_tiles = {k for k, v in mts.items() if len(v) < 4}
+
+    perimeter_graph = {pt: mts[pt] & perimeter_tiles for pt in perimeter_tiles}
+
+    # corner tile and adjacent tiles
+    start = min(corner_tiles)
+    start = Tile(start, data[start])
+    first, second = (Tile(i, data[i]) for i in mts[start.id])
+
+    # rotate corner tile until bottom and right borders become its matching borders
+    while True:
+        ms = {classify_match(start, first)[0], classify_match(start, second)[0]}
+        if ms == {"bottom", "right"}:
+            break
+        start.rot90()
+
+    paths_to_other_corners = [
+        shortest_path(perimeter_graph, start.id, ct)
+        for ct in corner_tiles
+        if ct != start.id
+    ]
+
+    assert {classify_match(start, first)[0], classify_match(start, second)[0]} == {'bottom', 'right'}
+    
+    left, top = _get_with_same_lengths(paths_to_other_corners)
+
+    # HACK
+    if path == "input.data":
+        left, top = top, left
+
+    # TODO: Fix this and replace the above hack with this
+    # if classify_match(start, first)[0] == "right":
+    #     if first.id in top:
+    #         top, left = left, top
+    # else:
+    #     if first.id in left:
+    #         top, left = left, top
+
+    # image matrix
+    tile_matrix = [[None for _ in range(len(top))] for _ in range(len(left))]
+    tile_matrix[0][0] = start
+
+    # collect top border
+    for i, t in enumerate(top[1:], 1):
+        t = Tile(t, data[t]) 
+        append_left(t, tile_matrix[0][i-1])
+        tile_matrix[0][i] = t
+    
+    # collect left border
+    for i, t in enumerate(left[1:], 1):
+        t = Tile(t, data[t]) 
+        append_below(t, tile_matrix[i-1][0])
+        tile_matrix[i][0] = t
+
+    visited = set(top) | set(left)
+    
+    # fill the rest left-right top-down
+    for c in range(1, len(top)):
+        for r in range(1, len(left)):
+            ti = mts[tile_matrix[r-1][c].id] & mts[tile_matrix[r][c-1].id] - visited
+            assert len(ti) == 1
+            ti = ti.pop()
+            visited.add(ti)
+            t = Tile(ti, data[ti])
+            append_left(t, tile_matrix[r][c-1])
+            tile_matrix[r][c] = t
+
+    return tile_matrix
+
+
+def assemble_image(tile_matrix):
+      collected = [
+            [trim_borders(column.data) for column in row]
+            for row in tile_matrix
+      ]
+      assembled = []
+      for row in collected:
+          merged_rows = ["".join(column[i] for column in row) for i in range(len(row[0]))]
+          assembled += merged_rows
+      return assembled
+
+
+def solution_02(path="input.data"):
+    pass 
+
+
 if __name__ == "__main__":
     print("Solution 01:", solution_01())
+    from pprint import pprint
+    pprint(assemble_tiles("test_solution_01.data"))
+    # print(50 * "-")
+    # pprint(assemble_tiles("input.data"))

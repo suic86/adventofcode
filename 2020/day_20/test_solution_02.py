@@ -1,14 +1,10 @@
 import pytest
 
 from test_solution_data import (
-    ASSEMBLED_TILES,
-    IMAGE,
     IMAGE_WITH_MONSTERS,
-    PARSED_TILES,
 )
 
 from solution import (
-    assemble_image,
     count_monsters,
     trim_borders,
 )
@@ -44,6 +40,16 @@ def test_count_monsters():
     assert count_monsters(IMAGE_WITH_MONSTERS) == 2
 
 
-@pytest.mark.skip
-def test_assemble_image():
-    assert assemble_image(ASSEMBLED_TILES, PARSED_TILES) == IMAGE
+@pytest.fixture
+def matched_tiles():
+    return {
+        2311: {1427, 1951, 3079},
+        1951: {2311, 2729},
+        1171: {1489, 2473},
+        1427: {1489, 2311, 2473, 2729},
+        1489: {1171, 1427, 2971},
+        2473: {1171, 1427, 3079},
+        2971: {1489, 2729},
+        2729: {1427, 1951, 2971},
+        3079: {2311, 2473},
+    }
