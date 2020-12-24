@@ -99,11 +99,8 @@ class Tile:
         self._right = None
         self._left = None
 
-    def _rot_clockwise(self, turns=1):
-        data = self._data
-        for _ in range(turns):
-            data = list(map("".join, zip(*reversed(data))))
-        self._data = data
+    def rot90(self):
+        self._data = list(map("".join, zip(*reversed(self._data))))
         self._reset_borders()
 
     def vflip(self):
@@ -112,18 +109,6 @@ class Tile:
 
     def hflip(self):
         self._data = [row[::-1] for row in self._data]
-        self._reset_borders()
-
-    def rot90(self):
-        self._rot_clockwise()
-        self._reset_borders()
-
-    def rot180(self):
-        self._rot_clockwise(2)
-        self._reset_borders()
-
-    def rot270(self):
-        self._rot_clockwise(3)
         self._reset_borders()
 
 

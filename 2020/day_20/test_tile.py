@@ -38,13 +38,6 @@ def test_tile_horizontal_flip(simple_tile):
     assert simple_tile.data == ["123", "456", "789"]
 
 
-def test_tile_rot180(simple_tile):
-    simple_tile.rot180()
-    assert simple_tile.data == ["987", "654", "321"]
-    simple_tile.rot180()
-    assert simple_tile.data == ["123", "456", "789"]
-
-
 def test_tile_rot90(simple_tile):
     simple_tile.rot90()
     assert simple_tile.data == ["741", "852", "963"]
@@ -52,13 +45,6 @@ def test_tile_rot90(simple_tile):
     assert simple_tile.bottom == "963"
     assert simple_tile.left == "789"
     assert simple_tile.right == "123"
-
-
-def test_tile_rot270(simple_tile):
-    simple_tile.rot270()
-    assert simple_tile.data == ["369", "258", "147"]
-    simple_tile.rot90()
-    assert simple_tile.data == ["123", "456", "789"]
 
 
 @pytest.mark.parametrize(
