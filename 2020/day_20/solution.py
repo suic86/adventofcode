@@ -34,29 +34,12 @@ def is_match(first, second):
 
 
 class Tile:
-    def __init__(self, id, data):
-        self._id = id
+    def __init__(self, data):
         self._data = data
         self._top = None
         self._bottom = None
         self._right = None
         self._left = None
-
-    def __hash__(self):
-        return hash(self._id)
-
-    def __eq__(self, other):
-        return self.id == other.id
-
-    def __str__(self):
-        return f"Tile({self.id})"
-
-    def __repr__(self):
-        return f"Tile({self.id})"
-
-    @property
-    def id(self):
-        return self._id
 
     @property
     def data(self):
@@ -112,8 +95,30 @@ class Tile:
         self._reset_borders()
 
 
+class IndexedTile(Tile):
+    def __init__(self, id, data):
+        self._id = id
+        super().__init__(data)
+
+    def __hash__(self):
+        return hash(self._id)
+
+    def __eq__(self, other):
+        return self.id == other.id
+
+    def __str__(self):
+        return f"Tile({self.id})"
+
+    def __repr__(self):
+        return f"Tile({self.id})"
+
+    @property
+    def id(self):
+        return self._id
+
+
 def matching_tiles(tiles):
-    tiles = [Tile(tile_id, tile_data) for tile_id, tile_data in tiles.items()]
+    tiles = [IndexedTile(tile_id, tile_data) for tile_id, tile_data in tiles.items()]
     matching = defaultdict(set)
     for first, second in product(tiles, repeat=2):
         if first == second:
@@ -217,12 +222,12 @@ def assemble_tiles(path="input.data"):
 
     # corner tile and adjacent tiles
     start = min(corner_tiles)
-    start = Tile(start, data[start])
-    first, second = (Tile(i, data[i]) for i in mts[start.id])
+    start = IndexedTile(start, data[start])
+    adjacents = {IndexedTile(i, data[i]) for i in mts[start.id]}
 
     # rotate corner tile until bottom and right borders become its matching borders
     while True:
-        ms = {classify_match(start, first)[0], classify_match(start, second)[0]}
+        ms = {classify_match(start, t)[0] for t in adjacents}
         if ms == {"bottom", "right"}:
             break
         start.rot90()
@@ -233,51 +238,35 @@ def assemble_tiles(path="input.data"):
         if ct != start.id
     ]
 
-    assert {classify_match(start, first)[0], classify_match(start, second)[0]} == {
-        "bottom",
-        "right",
-    }
-
     left, top = _get_with_same_lengths(paths_to_other_corners)
+    if classify_match(start, IndexedTile(left[0], data[left[0]]))[0] != "right":
+        top, left = left, top
 
-    # HACK
-    if path == "input.data":
-        left, top = top, left
-
-    # TODO: Fix this and replace the above hack with this
-    # if classify_match(start, first)[0] == "right":
-    #     if first.id in top:
-    #         top, left = left, top
-    # else:
-    #     if first.id in left:
-    #         top, left = left, top
-
-    # image matrix
     tile_matrix = [[None for _ in range(len(top))] for _ in range(len(left))]
     tile_matrix[0][0] = start
 
     # collect top border
     for i, t in enumerate(top[1:], 1):
-        t = Tile(t, data[t])
+        t = IndexedTile(t, data[t])
         append_left(t, tile_matrix[0][i - 1])
         tile_matrix[0][i] = t
 
     # collect left border
     for i, t in enumerate(left[1:], 1):
-        t = Tile(t, data[t])
+        t = IndexedTile(t, data[t])
         append_below(t, tile_matrix[i - 1][0])
         tile_matrix[i][0] = t
 
     visited = set(top) | set(left)
 
-    # fill the rest left-right top-down
+    # fill the rest of the tile_matrix left-right top-down
     for c in range(1, len(top)):
         for r in range(1, len(left)):
-            ti = mts[tile_matrix[r - 1][c].id] & mts[tile_matrix[r][c - 1].id] - visited
-            assert len(ti) == 1
-            ti = ti.pop()
+            ti = (
+                mts[tile_matrix[r - 1][c].id] & mts[tile_matrix[r][c - 1].id] - visited
+            ).pop()
             visited.add(ti)
-            t = Tile(ti, data[ti])
+            t = IndexedTile(ti, data[ti])
             append_left(t, tile_matrix[r][c - 1])
             tile_matrix[r][c] = t
 
@@ -294,7 +283,7 @@ def assemble_image(tile_matrix):
 
 
 def find_monsters(image):
-    image = Tile(0, image)
+    image = Tile(image)
     for _ in range(4):
         image.rot90()
         c = count_monsters(image.data)

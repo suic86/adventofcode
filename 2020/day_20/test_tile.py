@@ -6,13 +6,13 @@ from solution import Tile
 
 @pytest.fixture
 def simple_tile():
-    return Tile(0, ["123", "456", "789"])
+    return Tile(["123", "456", "789"])
 
 
 def test_tile():
     tile_id = 2311
     tile_data = PARSED_TILES[tile_id]
-    tile = Tile(tile_id, tile_data)
+    tile = Tile(tile_data)
     assert tile.top == "..##.#..#."
     assert tile.bottom == "..###..###"
     assert tile.left == ".#####..#."
@@ -62,7 +62,7 @@ def test_tile_rot90(simple_tile):
     ],
 )
 def test_tile_match_any_border(first, second, match):
-    first = Tile(first, PARSED_TILES[first])
-    second = Tile(second, PARSED_TILES[second])
+    first = Tile(PARSED_TILES[first])
+    second = Tile(PARSED_TILES[second])
     assert first.match_any_border(second) == match
     assert second.match_any_border(first) == match
