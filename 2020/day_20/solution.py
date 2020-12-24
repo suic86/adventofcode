@@ -10,9 +10,6 @@ MONSTER = [
     " #  #  #  #  #  #   ",
 ]
 
-MHEIGHT = len(MONSTER)
-MWIDTH = len(MONSTER[0])
-
 
 def read_data(path="input.data"):
     tiles = defaultdict(list)
