@@ -175,23 +175,25 @@ def _get_with_same_lengths(paths):
 
 
 def append_left(tile, to_tile):
-    while True:
+    for _ in range(4):
         border, adjacent, flipped = classify_match(tile, to_tile)
         if border == "left" and adjacent == "right":
             if flipped:
                 tile.vflip()
             return tile
         tile.rot90()
+    raise ValueError("Tiles don't match")
 
 
 def append_below(tile, to_tile):
-    while True:
+    for _ in range(4):
         border, adjacent, flipped = classify_match(tile, to_tile)
         if border == "top" and adjacent == "bottom":
             if flipped:
                 tile.hflip()
             return tile
         tile.rot90()
+    raise ValueError("Tiles don't match")
 
 
 def assemble_tiles(path="input.data"):
@@ -209,11 +211,15 @@ def assemble_tiles(path="input.data"):
     adjacents = {IndexedTile(i, data[i]) for i in mts[start.id]}
 
     # rotate corner tile until bottom and right borders become its matching borders
-    while True:
+    for _ in range(4):
         ms = {classify_match(start, t)[0] for t in adjacents}
         if ms == {"bottom", "right"}:
             break
         start.rot90()
+    else:
+        raise ValueError(
+            "Tile is not a corner tile. It can't be set as left upper corner."
+        )
 
     paths_to_other_corners = [
         shortest_path(perimeter_graph, start.id, ct)
