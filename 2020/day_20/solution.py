@@ -10,7 +10,6 @@ MONSTER = [
     " #  #  #  #  #  #   ",
 ]
 
-
 MHEIGHT = len(MONSTER)
 MWIDTH = len(MONSTER[0])
 
@@ -145,19 +144,6 @@ def trim_borders(tile_data):
     return [row[1:-1] for row in tile_data[1:-1]]
 
 
-def count_monsters(image):
-    monsters = 0
-    for r in range(len(image) - MHEIGHT):
-        for c in range(len(image[0]) - MWIDTH):
-            monsters += all(
-                MONSTER[dr][dc] == image[r + dr][c + dc]
-                for dr in range(MHEIGHT)
-                for dc in range(MWIDTH)
-                if MONSTER[dr][dc] == "#"
-            )
-    return monsters
-
-
 def classify_match(first, second):
     borders = ["top", "left", "bottom", "right"]
     for i, df in enumerate(first.borders):
@@ -274,7 +260,9 @@ def assemble_tiles(path="input.data"):
 
 
 def assemble_image(tile_matrix):
-    trimmed_tiles = [[trim_borders(column.data) for column in row] for row in tile_matrix]
+    trimmed_tiles = [
+        [trim_borders(column.data) for column in row] for row in tile_matrix
+    ]
     return list(
         chain(
             ["".join(column[i] for column in row) for i in range(len(row[0]))]
@@ -283,35 +271,42 @@ def assemble_image(tile_matrix):
     )
 
 
+def count_monsters(image, monster):
+    mheight = len(monster)
+    mwidth = len(monster[0])
+    return sum(
+        all(
+            monster[dr][dc] == image[r + dr][c + dc]
+            for dr in range(mheight)
+            for dc in range(mwidth)
+            if monster[dr][dc] == "#"
+        )
+        for r in range(len(image) - mheight)
+        for c in range(len(image[0]) - mwidth)
+    )
+
+
 def find_monsters(image):
-    image = Tile(image)
-    for _ in range(4):
-        image.rot90()
-        c = count_monsters(image.data)
-        if c != 0:
-            return c
-
-    image.hflip()
-    for _ in range(4):
-        image.rot90()
-        c = count_monsters(image.data)
-        if c != 0:
-            return c
-
-    image.hflip()
-    image.vflip()
+    monster = Tile(MONSTER[:])
 
     for _ in range(4):
-        image.rot90()
-        c = count_monsters(image.data)
-        if c != 0:
+        monster.rot90()
+        c = count_monsters(image, monster.data)
+        if c:
             return c
 
-    image.hflip()
-    for _ in range(4):
-        c = count_monsters(image.data)
-        if c != 0:
-            return c
+    for flips in [
+        [monster.hflip],
+        [monster.hflip, monster.vflip],
+        [monster.hflip],
+    ]:
+        for flip in flips:
+            flip()
+        for _ in range(4):
+            image.rot90()
+            c = count_monsters(image, monster.data)
+            if c:
+                return c
 
     raise ValueError("No monsters found.")
 
@@ -320,8 +315,8 @@ def solution_02(path="input.data"):
     image = assemble_image(assemble_tiles(path))
     hash_count = sum(row.count("#") for row in image)
     monster_hash_count = sum(row.count("#") for row in MONSTER)
-    mc = find_monsters(image)
-    return hash_count - monster_hash_count * mc
+    monster_count = find_monsters(image)
+    return hash_count - monster_hash_count * monster_count
 
 
 if __name__ == "__main__":

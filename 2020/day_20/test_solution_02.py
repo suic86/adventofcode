@@ -5,6 +5,7 @@ from test_solution_data import (
 )
 
 from solution import (
+    MONSTER,
     count_monsters,
     trim_borders,
 )
@@ -37,7 +38,7 @@ def test_trim_borders():
 
 
 def test_count_monsters():
-    assert count_monsters(IMAGE_WITH_MONSTERS) == 2
+    assert count_monsters(IMAGE_WITH_MONSTERS, MONSTER) == 2
 
 
 @pytest.fixture
