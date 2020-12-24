@@ -1,6 +1,6 @@
 from collections import defaultdict, deque
 from functools import reduce
-from itertools import product, starmap
+from itertools import chain, product, starmap
 from operator import mul
 
 
@@ -274,12 +274,13 @@ def assemble_tiles(path="input.data"):
 
 
 def assemble_image(tile_matrix):
-    collected = [[trim_borders(column.data) for column in row] for row in tile_matrix]
-    assembled = []
-    for row in collected:
-        merged_rows = ["".join(column[i] for column in row) for i in range(len(row[0]))]
-        assembled += merged_rows
-    return assembled
+    trimmed_tiles = [[trim_borders(column.data) for column in row] for row in tile_matrix]
+    return list(
+        chain(
+            ["".join(column[i] for column in row) for i in range(len(row[0]))]
+            for row in trimmed_tiles
+        )
+    )
 
 
 def find_monsters(image):
