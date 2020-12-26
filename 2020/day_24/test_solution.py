@@ -50,13 +50,13 @@ def test_steps_to_tile():
 
 def test_next_day():
     tiles = input_to_tiles("test_solution_01.data")
-    assert sum(tiles.values()) == 10
+    assert len(tiles) == 10
     tiles = next_day(tiles)
-    assert sum(tiles.values()) == 15
+    assert len(tiles) == 15
     tiles = next_day(tiles)
-    assert sum(tiles.values()) == 12
+    assert len(tiles) == 12
     tiles = next_day(tiles)
-    assert sum(tiles.values()) == 25
+    assert len(tiles) == 25
 
 
 @pytest.mark.parametrize(

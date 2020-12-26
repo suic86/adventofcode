@@ -12,6 +12,7 @@ CONVERSION = {
     "nw": (0, -1),
     "ne": (1, -1),
 }
+ADJACENTS = list(CONVERSION.values())
 
 
 def read_data(path="input.data"):
@@ -31,45 +32,40 @@ def input_to_tiles(path="input.data"):
     tiles = defaultdict(bool)
     for tile in map(steps_to_tile, read_data(path)):
         tiles[tile] = not tiles[tile]
-    return tiles
+    return {k for k, v in tiles.items() if v}
 
 
 def next_day(tiles):
-    to_flip = []
-    new_tiles = {}
+    new_tiles = set()
 
-    for (q, r), color in tiles.items():
-        new_tiles[(q, r)] = color
-        for qd, rd in CONVERSION.values():
-            if (q + qd, r + rd) not in tiles:
-                new_tiles[(q + qd, r + rd)] = False
+    for (q, r) in tiles:
+        adj = sum((q + qd, r + rd) in tiles for qd, rd in ADJACENTS)
+        if not (adj == 0 or adj > 2):
+            new_tiles.add((q, r))
 
-    for (q, r), color in new_tiles.items():
-        adjacents = sum(
-            new_tiles.get((q + qd, r + rd), 0) for qd, rd in CONVERSION.values()
-        )
-        # tile is black
-        if color and (adjacents == 0 or adjacents > 2):
-            to_flip.append((q, r))
-        # tile is white
-        elif not color and adjacents == 2:
-            to_flip.append((q, r))
+    adjacents = {
+        (q + qd, r + rd)
+        for (q, r) in tiles
+        for qd, rd in CONVERSION.values()
+        if (q + qd, r + rd) not in tiles
+    }
 
-    for tile in to_flip:
-        new_tiles[tile] = not new_tiles[tile]
+    for (q, r) in adjacents:
+        if sum((q + qd, r + rd) in tiles for qd, rd in ADJACENTS) == 2:
+            new_tiles.add((q, r))
 
     return new_tiles
 
 
 def solution_01(path="input.data"):
-    return sum(input_to_tiles(path).values())
+    return len(input_to_tiles(path))
 
 
 def solution_02(path="input.data"):
     tiles = input_to_tiles(path)
     for _ in range(100):
         tiles = next_day(tiles)
-    return sum(tiles.values())
+    return len(tiles)
 
 
 if __name__ == "__main__":
