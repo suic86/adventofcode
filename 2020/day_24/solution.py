@@ -44,10 +44,10 @@ def next_day(tiles):
             new_tiles.add((q, r))
 
     adjacents = {
-        (q + qd, r + rd)
-        for (q, r) in tiles
-        for qd, rd in CONVERSION.values()
-        if (q + qd, r + rd) not in tiles
+        adj
+        for q, r in tiles
+        for qd, rd in ADJACENTS
+        if (adj := (q + qd, r + rd)) not in tiles
     }
 
     for (q, r) in adjacents:
