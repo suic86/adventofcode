@@ -7,3 +7,4 @@ htmlcov/
 .testmondata
 run_tests.sh
 .vscode/
+.venv/

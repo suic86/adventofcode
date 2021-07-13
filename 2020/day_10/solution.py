@@ -21,7 +21,7 @@ def solution_01(path="input.data"):
 
 def solution_02(path="input.data"):
     data = sorted(read_data(path) + [0])
-    differences = [y - x for x, y in zip(data, data[1:])]
+    differences = map(sub, data[1:], data)
     groups_of_ones = (sum(1 for _ in g) for k, g in groupby(differences) if k == 1)
     coefficients = {1: 1, 2: 2, 3: 4, 4: 7}
     return reduce(mul, map(coefficients.get, groups_of_ones))
