@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import re
 
 FIELD_KEYS = {
@@ -71,14 +70,13 @@ def is_hcl_valid(hair_color):
     return bool(re.match("^#[0-9a-f]{6}$", hair_color))
 
 
-def is_ecl_valid(eye_color):
-    """ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth."""
-    return eye_color in "amb blu brn gry grn hzl oth".split()
+# ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
+is_ecl_valid = {"amb", "blu", "brn", "gry", "grn", "hzl", "oth"}.__contains__
 
 
 def is_pid_valid(passport_id):
     """pid (Passport ID) - a nine-digit number, including leading zeroes."""
-    return bool(re.match("^[0-9]{9}$", passport_id))
+    return len(passport_id) == 9 and passport_id.isdigit()
 
 
 def is_cid_valid(country_id):
@@ -92,14 +90,10 @@ def parse_passport_data(passport_data):
 
 def is_passport_data_valid(passport_data):
     missing_keys = FIELD_KEYS - set(parse_passport_data(passport_data))
-    if not missing_keys:
-        return True
-    elif len(missing_keys) == 1 and missing_keys.pop() == "cid":
-        return True
-    return False
+    return not missing_keys or len(missing_keys) == 1 and missing_keys.pop() == "cid"
 
 
-def is_passport_valid(passport_data):
+def is_valid_passport(passport_data):
     if not is_passport_data_valid(passport_data):
         return False
     validation_map = {
@@ -121,7 +115,7 @@ def solution_01(path="input.data"):
 
 
 def solution_02(path="input.data"):
-    return sum(map(is_passport_valid, read_passport_data(path)))
+    return sum(map(is_valid_passport, read_passport_data(path)))
 
 
 if __name__ == "__main__":
