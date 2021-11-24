@@ -1,12 +1,11 @@
-#!/usr/bin/env python3
+from re import compile
 
-from re import findall
+PARSER = compile(r"(\d+)-(\d+) ([a-z]): ([a-z]+)")
 
 
-def parse_data():
+def parse_data(parser=PARSER):
     with open("input.data") as f:
-        data = f.read()
-    return findall(r"(\d+)-(\d+) ([a-z]): ([a-z]+)", data)
+        return parser.findall(f.read())
 
 
 def solution_01():
