@@ -3,9 +3,12 @@ def load_data(path="input.data"):
         return list(map(str.strip, fobj))
 
 
-def is_valid(passphrase, key=lambda x: x):
+def is_valid(passphrase, key=None):
     unique_words = set()
-    for word in map(key, passphrase.split()):
+    words = passphrase.split()
+    if key is not None:
+        words = map(key, words)
+    for word in words:
         if word in unique_words:
             return False
         else:
