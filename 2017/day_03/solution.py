@@ -37,23 +37,23 @@ def solution_01():
 
 CACHED_TABLE = None
 
-
-def solution_02():
+def _load_table():
     global CACHED_TABLE
     if CACHED_TABLE:
-        table = CACHED_TABLE
-    else:
-        # Square spiral of sums of selected preceding terms, starting at 1.
-        # Table of n, a(n) for n=1..961 by Klaus Brockhaus
-        table = (
-            urlopen("https://oeis.org/A141481/b141481.txt")
-            .read()
-            .decode("utf-8")
-            .strip()
-            .split("\n")
-        )
-        table = [int(row.split()[1]) for row in table if not row.startswith("#")]
-        CACHED_TABLE = table
+        return CACHED_TABLE
+
+    # Square spiral of sums of selected preceding terms, starting at 1.
+    # Table of n, a(n) for n=1..961 by Klaus Brockhaus
+    with urlopen("https://oeis.org/A141481/b141481.txt") as response:
+        page_content = response.read().decode("utf-8").strip().split("\n")
+    table = [int(row.split()[1]) for row in page_content if not row.startswith("#")]
+    CACHED_TABLE = table
+
+    return table
+
+
+def solution_02():
+    table = _load_table()
 
     for value in table:
         if value > PUZZLE_INPUT:
