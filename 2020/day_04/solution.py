@@ -90,7 +90,7 @@ def parse_passport_data(passport_data):
 
 def is_passport_data_valid(passport_data):
     missing_keys = FIELD_KEYS - set(parse_passport_data(passport_data))
-    return not missing_keys or len(missing_keys) == 1 and missing_keys.pop() == "cid"
+    return not missing_keys or missing_keys == {"cid"}
 
 
 def is_valid_passport(passport_data):
