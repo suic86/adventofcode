@@ -13,14 +13,9 @@ def solution_01():
 
 
 def solution_02():
-    result = 0
-    for f, s, c, p in parse_data():
-        try:
-            if (p[int(f) - 1], p[int(s) - 1]).count(c) == 1:
-                result += 1
-        except IndexError:
-            pass
-    return result
+    return sum(
+        (p[int(f) - 1] == c) ^ (p[int(s) - 1] == c) for f, s, c, p in parse_data()
+    )
 
 
 if __name__ == "__main__":
