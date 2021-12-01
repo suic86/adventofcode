@@ -4,9 +4,9 @@ name: Test Solutions
 
 on:
   push:
-    branches: [ master ]
+    branches: [ 2021 ]
   pull_request:
-    branches: [ master ]
+    branches: [ 2021 ]
 
   workflow_dispatch:
 
