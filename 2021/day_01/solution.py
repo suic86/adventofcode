@@ -3,13 +3,13 @@ def parse_data(path="input.data"):
         return [int(row) for row in fobj]
 
 
-def depth_measurement_increases(measurments):
-    return sum(map(int.__lt__, measurments, measurments[1:]))
+def depth_measurement_increases(measurements):
+    return sum(map(int.__lt__, measurements, measurements[1:]))
 
 
-def window_sums(measurments, window_size=3):
+def window_sums(measurements, window_size=3):
     return [
-        sum(window) for window in zip(*(measurments[i:] for i in range(window_size)))
+        sum(window) for window in zip(*(measurements[i:] for i in range(window_size)))
     ]
 
 
