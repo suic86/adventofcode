@@ -30,13 +30,14 @@ def oxygen_generator_rating(report):
     and keep only numbers with that bit in that position.
     If 0 and 1 are equally common, keep values with a 1 in the position being considered.
     """
-    bit = 0
-    while len(report) > 1:
+    for bit in range(len(report[0])):
         bit_count = count_bits(report, bit)
         most_common = str(int(bit_count["1"] >= bit_count["0"]))
         report = [row for row in report if row[bit] == most_common]
-        bit += 1
-    return int(report[0], 2)
+        if len(report) == 1:
+            return int(report[0], 2)
+    else:
+        raise ValueError("Invalid report.")
 
 
 def co2_scrubber_rating(report):
@@ -45,13 +46,14 @@ def co2_scrubber_rating(report):
     and keep only numbers with that bit in that position.
     If 0 and 1 are equally common, keep values with a 0 in the position being considered.
     """
-    bit = 0
-    while len(report) > 1:
+    for bit in range(len(report[0])):
         bit_count = count_bits(report, bit)
         least_common = str(int(bit_count["1"] < bit_count["0"]))
         report = [row for row in report if row[bit] == least_common]
-        bit += 1
-    return int(report[0], 2)
+        if len(report) == 1:
+            return int(report[0], 2)
+    else:
+        raise ValueError("Invalid report.")
 
 
 def solution_01(path="input.data"):
