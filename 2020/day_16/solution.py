@@ -52,12 +52,11 @@ def valid_field_ranges(ticket_data):
 
 def ticket_scanning_error_rate(ticket_data):
     valid_ranges = valid_field_ranges(ticket_data)
-    score = 0
-    for ticket in ticket_data["nearby tickets"]:
-        for value in ticket:
-            if not any(value_in_range(value, r) for r in valid_ranges):
-                score += value
-    return score
+    return sum(
+        value
+        for value in chain.from_iterable(ticket_data["nearby tickets"])
+        if not any(value_in_range(value, r) for r in valid_ranges)
+    )
 
 
 def is_valid_ticket(ticket, valid_ranges):
@@ -91,14 +90,10 @@ def field_candidates(ticket_data):
         for name, ranges in ticket_data["fields"].items()
     }
 
-    candidates = []
-    for i, ticket_field in enumerate(ticket_fields):
-        field_candidate = set()
-        for name, rng in fields.items():
-            if ticket_field.issubset(rng):
-                field_candidate.add(name)
-        candidates.append([i, field_candidate])
-    return candidates
+    return [
+        [i, {name for name, rng in fields.items() if ticket_field.issubset(rng)}]
+        for i, ticket_field in enumerate(ticket_fields)
+    ]
 
 
 def match_fields(ticket_data):
