@@ -1,3 +1,6 @@
+from statistics import median
+
+
 def load_data(path="input.data"):
     with open(path) as fobj:
         return list(map(int, fobj.read().strip().split(",")))
@@ -9,10 +12,8 @@ def sum_of_arithmetic_series(n):
 
 def solution_01(path="input.data"):
     crabs = load_data(path)
-    return min(
-        sum(abs(crab - position) for crab in crabs)
-        for position in range(min(crabs), max(crabs) + 1)
-    )
+    optimal_position = median(crabs)
+    return sum(abs(crab - optimal_position) for crab in crabs)
 
 
 def solution_02(path="input.data"):
