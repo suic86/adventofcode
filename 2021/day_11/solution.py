@@ -6,24 +6,17 @@ def load_data(path="input.data"):
         return [list(map(int, iter(row.strip()))) for row in fobj]
 
 
-def adjacents(r, c, width, height):
-    for dr, dc in [
-        (-1, -1),
-        (-1, 0),
-        (-1, 1),
-        (0, -1),
-        (0, 1),
-        (1, -1),
-        (1, 0),
-        (1, 1),
-    ]:
-        if (0 <= r + dr < height) and (0 <= c + dc < width):
-            yield r + dr, c + dc
-
-
 def gen_steps(data):
     width = len(data[0])
     height = len(data)
+
+    def adjacents(r, c):
+        # fmt: off
+        for dr, dc in [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
+            if (0 <= r + dr < height) and (0 <= c + dc < width):
+                yield r + dr, c + dc
+        # fmt: on
+
     for _ in count():
         # First, the energy level of each octopus increases by 1.
         data = [[column + 1 for column in row] for row in data]
@@ -37,12 +30,13 @@ def gen_steps(data):
                 stack = [(r, c)]
                 while stack:
                     rc, cc = stack.pop()
-                    # This increases the energy level of all adjacent octopuses by 1, including octopuses that are diagonally adjacent.
-                    for ra, ca in adjacents(rc, cc, width, height):
+                    # This increases the energy level of all adjacent octopuses by 1,
+                    # including octopuses that are diagonally adjacent.
+                    for ra, ca in adjacents(rc, cc):
                         # An octopus can only flash at most once per step.
                         if (ra, ca) not in flashed:
                             data[ra][ca] += 1
-                    for ra, ca in adjacents(rc, cc, width, height):
+                    for ra, ca in adjacents(rc, cc):
                         # If this causes an octopus to have an energy level greater than 9, it also flashes.
                         # An octopus can only flash at most once per step.
                         if (ra, ca) not in flashed and data[ra][ca] > 9:
