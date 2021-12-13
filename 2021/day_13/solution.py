@@ -19,26 +19,15 @@ def load_data(path="input.data"):
 
 
 def fold(coordinates, axis, value):
-    # remove coordinates with the given column (row) value if axis is x (y)
     new_data = set()
     if axis == "y":
         for x, y in coordinates:
-            if y == value:
-                continue
-            if y < value:
-                new_data.add((x, y))
-                continue
-            else:
-                new_data.add((x, 2 * value - y))
+            if y != value:
+                new_data.add((x, 2 * value - y if y > value else y))
     elif axis == "x":
         for x, y in coordinates:
-            if x == value:
-                continue
-            if x < value:
-                new_data.add((x, y))
-                continue
-            else:
-                new_data.add(((2 * value - x), y))
+            if x != value:
+                new_data.add(((2 * value - x) if x > value else x, y))
     else:
         raise ValueError(f"Axis must be x or y but got {axis}.")
     return new_data
