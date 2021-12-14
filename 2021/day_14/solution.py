@@ -1,4 +1,4 @@
-from collections import Counter, defaultdict
+from collections import Counter
 from itertools import islice
 
 
@@ -44,15 +44,16 @@ def optimized_step_gen(polymer_template, insertion_rules):
     elements = Counter(polymer_template)
     state = Counter(zip(polymer_template, polymer_template[1:]))
     while True:
-        new_state = defaultdict(int)
+        new_state = Counter()
         for pair, count in state.items():
             if pair not in insertion_rules:
                 new_state[pair] = count
                 continue
             left, right = pair
-            new_state[(left, insertion_rules[pair])] += count
-            new_state[(insertion_rules[pair], right)] += count
-            elements[insertion_rules[pair]] += count
+            element = insertion_rules[pair]
+            new_state[(left, element)] += count
+            new_state[(element, right)] += count
+            elements[element] += count
         state = new_state
         yield elements
 
