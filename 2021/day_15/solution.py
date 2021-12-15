@@ -56,13 +56,11 @@ def dijkstra_with_heap(graph, scale=1):
 
 
 def solution_01(path="input.data"):
-    data = load_data(path)
-    return dijkstra_with_heap(data)
+    return dijkstra_with_heap(load_data(path))
 
 
 def solution_02(path="input.data"):
-    data = load_data(path)
-    return dijkstra_with_heap(data, scale=5)
+    return dijkstra_with_heap(load_data(path), scale=5)
 
 
 if __name__ == "__main__":
