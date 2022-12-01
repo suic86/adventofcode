@@ -4,9 +4,9 @@ name: Test Solutions
 
 on:
   push:
-    branches: [ master ]
+    branches: [ 2021 ]
   pull_request:
-    branches: [ master ]
+    branches: [ 2021 ]
 
   workflow_dispatch:
 
@@ -24,6 +24,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Check with pyflakes
-        run: for i in */day_*;do echo $i; cd $i; pyflakes *.py ; cd -;done
+        run: for i in 2021/day_*;do echo $i; cd $i; pyflakes *.py ; cd -;done
       - name: Run Tests
-        run: for i in */day_*;do echo $i; cd $i; pytest -m "not slow"; cd -;done
+        run: for i in 2021/day_*;do echo $i; cd $i; pytest -m "not slow"; cd -;done
