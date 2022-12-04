@@ -8,13 +8,16 @@ def parse_data(path="input.data"):
 
 
 def full_overlap(assignment):
-    a, b, c, d = assignment
-    return (a <= c and b >= d) or (c <= a and d >= b)
+    s1, e1, s2, e2 = assignment
+    return (s1 <= s2 and e1 >= e2) or (s2 <= s1 and e2 >= e1)
 
 
 def any_overlap(assignment):
-    a, b, c, d = assignment
-    return (a <= c <= b) or (a <= d <= b) or (c <= a <= d) or (c <= b <= d)
+    s1, e1, s2, e2 = assignment
+    # no overlap:
+    #       s1--e1
+    # s2--e2      s2--e2
+    return not (e2 < s1 or e1 < s2)
 
 
 def solution_01(path="input.data"):
