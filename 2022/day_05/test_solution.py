@@ -1,6 +1,5 @@
 from solution import parse_data, solution_01, solution_02
 
-
 PARSED_STACKS = {
     1: ["Z", "N"],
     2: ["M", "C", "D"],
