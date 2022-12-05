@@ -25,24 +25,24 @@ def parse_data(path="input.data"):
     return stacks, moves
 
 
+def top_crates(stacks):
+    return "".join(v[-1] for _, v in sorted(stacks.items()))
+
+
 def solution_01(path="input.data"):
     stacks, moves = parse_data(path)
     for (c, f, t) in moves:
         for _ in range(c):
-            if not f:
-                continue
             stacks[t].append(stacks[f].pop())
-    return "".join(v[-1] for _, v in sorted(stacks.items()))
+    return top_crates(stacks)
 
 
 def solution_02(path="input.data"):
     stacks, moves = parse_data(path)
     for (c, f, t) in moves:
-        if not f:
-            continue
         stacks[t].extend(stacks[f][-c:])
         stacks[f] = stacks[f][:-c]
-    return "".join(v[-1] for _, v in sorted(stacks.items()))
+    return top_crates(stacks)
 
 
 if __name__ == "__main__":
