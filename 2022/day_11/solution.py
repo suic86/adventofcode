@@ -1,5 +1,4 @@
 from functools import reduce
-from math import gcd
 from operator import itemgetter, mul
 from re import compile
 
@@ -55,8 +54,7 @@ def parse_data(path="input.data"):
 
 
 def do_rounds(monkeys, rounds=20, first_part=True):
-    modulos = {m["modulo"] for m in monkeys.values()}
-    lcm = reduce(mul, modulos, 1) // gcd(*modulos)
+    modulo = reduce(mul, (m["modulo"] for m in monkeys.values()), 1)
     for _ in range(rounds):
         for _, monkey in sorted(monkeys.items()):
             monkey["processed"] += len(monkey["items"])
@@ -65,7 +63,7 @@ def do_rounds(monkeys, rounds=20, first_part=True):
                     new_item //= 3
                 # https://www.reddit.com/r/adventofcode/comments/ziw4aq/comment/izsr5av/?utm_source=share&utm_medium=web2x&context=3
                 # For any set of integers n, p and d: if d mod p = 0, then (n mod p) mod d = n mod d
-                monkeys[monkey["test"](new_item)]["items"].append(new_item % lcm)
+                monkeys[monkey["test"](new_item)]["items"].append(new_item % modulo)
             monkey["items"] = []
     return monkeys
 
