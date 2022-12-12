@@ -20,9 +20,8 @@ def shortest_path_length(grid, end, start=("S",)):
             if ord(v) - ord(mapping.get(nv, nv)) < 2:
                 yield nr, nc, nv, d + 1
 
-    sr, sc = end
     visited = set()
-    queue = deque([(sr, sc, "z", 0)])
+    queue = deque([(*end, "z", 0)])
     while queue:
         r, c, v, d = queue.popleft()
         visited.add((r, c))
