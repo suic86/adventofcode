@@ -35,7 +35,7 @@ def shortest_path_length(grid, end, start=("S",)):
     raise ValueError("Distance not found.")
 
 
-def solution(path="input.data", start="S"):
+def solution(path="input.data", start=("S",)):
     grid = parse_data(path)
     end = None
     for i, r in enumerate(grid):
