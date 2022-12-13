@@ -12,7 +12,7 @@ def visible_trees(grid):
     w = len(grid[0])
     edges = 2 * h + 2 * w - 4
     visible = 0
-    for r in range(1, len(grid) - 1):
+    for r in range(1, h - 1):
         for c in range(1, w - 1):
             v = grid[r][c]
             visible += (
