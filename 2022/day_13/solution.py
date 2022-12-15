@@ -13,18 +13,6 @@ def parse_data(path="input.data", part_02=False):
 
 
 def compare(left, right):
-    if isinstance(left, int) and isinstance(right, int):
-        if left < right:
-            return -1
-        elif left > right:
-            return 1
-        else:
-            return 0
-    elif isinstance(left, int):
-        left = [left]
-    elif isinstance(right, int):
-        right = [right]
-
     for l, r in zip_longest(left, right):
         # left side is run out of items
         if l is None:
@@ -38,16 +26,15 @@ def compare(left, right):
                 return -1
             elif l > r:
                 return 1
-
-        if isinstance(l, int):
+            else:
+                continue
+        elif isinstance(l, int):
             l = [l]
         elif isinstance(r, int):
             r = [r]
 
-        if isinstance(l, list) and isinstance(r, list):
-            res = compare(l, r)
-            if res != 0:
-                return res
+        if (res := compare(l, r)) != 0:
+            return res
     return 0
 
 
