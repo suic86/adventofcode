@@ -1,23 +1,23 @@
 from collections import defaultdict
 
 
-def parse_game(game: str) -> dict[str, int]:
+def parse_game(record: str) -> dict[str, int]:
     result = defaultdict(int)
-    game, rounds = game.strip().split(": ")
+    game, rounds = record.strip().split(":")
     result["id"] = int(game.split()[1])
-    for round in rounds.split("; "):
-        for colors in round.split(", "):
+    for round in rounds.split(";"):
+        for colors in round.split(","):
             value, color = colors.split()
             result[color] = max(result[color], int(value))
     return result
 
 
-def load_data(path="input.data"):
+def load_data(path: str = "input.data") -> list[dict[str, int]]:
     with open(path) as fobj:
         return list(map(parse_game, fobj))
 
 
-def solution_01(path="input.data"):
+def solution_01(path: str = "input.data") -> int:
     return sum(
         data["id"]
         for data in load_data(path)
@@ -25,7 +25,7 @@ def solution_01(path="input.data"):
     )
 
 
-def solution_02(path="input.data"):
+def solution_02(path: str = "input.data") -> int:
     return sum(data["red"] * data["green"] * data["blue"] for data in load_data(path))
 
 
