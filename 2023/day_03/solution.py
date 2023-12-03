@@ -1,3 +1,4 @@
+from itertools import product
 from re import compile
 from typing import Generator
 
@@ -25,17 +26,7 @@ def gears(schema: Schema) -> set[tuple[int, int]]:
 
 
 def adjacents(y: int, x: int) -> Generator[tuple[int, int], None, None]:
-    for dy, dx in [
-        (-1, -1),
-        (-1, 0),
-        (-1, 1),
-        (0, 1),
-        (0, -1),
-        (1, -1),
-        (1, 0),
-        (1, 1),
-    ]:
-        yield y + dy, x + dx
+    return ((y + dy, x + dx) for dy, dx in product((-1, 0, 1), repeat=2) if dx or dy)
 
 
 def find_part_numbers(schema: Schema) -> list[int]:
