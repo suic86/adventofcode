@@ -1,4 +1,3 @@
-from functools import reduce
 from itertools import cycle, islice
 from math import lcm
 from re import compile
@@ -42,7 +41,7 @@ def solution_02(path: str = "input.data") -> int:
         if not nodes:
             break
         nodes = n
-    return reduce(lcm, steps)
+    return lcm(*steps)
 
 
 if __name__ == "__main__":
