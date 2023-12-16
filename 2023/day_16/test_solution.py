@@ -33,4 +33,4 @@ def test_solution_02_test_data() -> None:
 
 @pytest.mark.slow
 def test_solution_02_input_data() -> None:
-    assert solution_02("test.data") == 7324
+    assert solution_02("input.data") == 7324

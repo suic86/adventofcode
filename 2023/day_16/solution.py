@@ -51,7 +51,7 @@ def trace_ray(layout: Layout, ray: Ray) -> int:
     visited = set()
     while rays:
         ray = rays.pop()
-        traced.add((ray.position, ray.direction))
+        traced.add(Ray(ray.position, ray.direction))
         while ray_in_layout(ray, layout):
             visited.add(ray.position)
 
@@ -70,13 +70,13 @@ def trace_ray(layout: Layout, ray: Ray) -> int:
                 ray.direction = (dx, dy)
                 split_ray = Ray(ray.position, (-dx, dy))
                 split_ray.advance()
-                if (split_ray.position, split_ray.direction) not in traced:
+                if split_ray not in traced:
                     rays.append(split_ray)
             elif obj == "-" and dy:
                 ray.direction = (dx, dy)
                 split_ray = Ray(ray.position, (dx, -dy))
                 split_ray.advance()
-                if (split_ray.position, split_ray.direction) not in traced:
+                if split_ray not in traced:
                     rays.append(split_ray)
             ray.advance()
     return len(visited)
