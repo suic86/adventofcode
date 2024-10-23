@@ -37,6 +37,7 @@ def solution_01():
 
 CACHED_TABLE = None
 
+
 def _load_table():
     global CACHED_TABLE
     if CACHED_TABLE:

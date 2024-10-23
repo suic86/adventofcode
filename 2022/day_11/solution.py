@@ -36,10 +36,8 @@ def parse_data(path="input.data"):
                 extract_int, [index, test, iftrue, iffalse]
             )
 
-            test = (
-                lambda v, modulo=modulo, iftrue=iftrue, iffalse=iffalse: iftrue
-                if v % modulo == 0
-                else iffalse
+            test = lambda v, modulo=modulo, iftrue=iftrue, iffalse=iffalse: (
+                iftrue if v % modulo == 0 else iffalse
             )
 
             monkeys[index] = {

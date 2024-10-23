@@ -34,6 +34,7 @@ def test_position_with_aim():
 def test_solution_01(data_source, expected_position):
     assert solution_01(data_source) == expected_position
 
+
 @pytest.mark.parametrize(
     "data_source,expected_position",
     [

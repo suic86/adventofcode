@@ -1,7 +1,6 @@
 import pytest
 
-from solution import (calculate_distance, first_visited_twice, solution_01,
-                      solution_02)
+from solution import calculate_distance, first_visited_twice, solution_01, solution_02
 
 
 @pytest.mark.parametrize(

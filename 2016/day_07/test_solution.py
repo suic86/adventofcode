@@ -9,7 +9,10 @@ from solution import solution_01, solution_02, ssl_support, tls_support
         ("xyx[xyx]xyx", False),
         ("aaa[kek]eke", True),
         ("zazbz[bzb]cdb", True),
-        ("lrqapqafjqfroqz[zenrntyrnrjtuij]kaewwkrjpcmeylerv[camcigwjgpyeaqg]wpkzihyjlcquzrg[ttfagxotubvfeiqkg]amqnhawihumfajhvd", False)
+        (
+            "lrqapqafjqfroqz[zenrntyrnrjtuij]kaewwkrjpcmeylerv[camcigwjgpyeaqg]wpkzihyjlcquzrg[ttfagxotubvfeiqkg]amqnhawihumfajhvd",
+            False,
+        ),
     ],
 )
 def test_ssl_support(address: str, expected: bool) -> None:

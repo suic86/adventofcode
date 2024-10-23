@@ -31,7 +31,7 @@ def top_crates(stacks):
 
 def solution(path="input.data", reverse=True):
     stacks, moves = parse_data(path)
-    for (c, f, t) in moves:
+    for c, f, t in moves:
         stacks[t].extend(reversed(stacks[f][-c:]) if reverse else stacks[f][-c:])
         stacks[f] = stacks[f][:-c]
     return top_crates(stacks)

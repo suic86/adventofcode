@@ -100,7 +100,7 @@ def match_fields(ticket_data):
     candidates = sorted(field_candidates(ticket_data), key=lambda t: len(t[1]))
 
     for i, (_, candidate_set) in enumerate(candidates):
-        for (_, other_candidate_set) in candidates[i + 1 :]:
+        for _, other_candidate_set in candidates[i + 1 :]:
             other_candidate_set -= candidate_set
 
     if any(len(candidate_set) > 1 for _, candidate_set in candidates):

@@ -38,4 +38,3 @@ def test_solution_01(path: str, expected: int) -> None:
 )
 def test_solution_02(path: str, expected: int) -> None:
     assert solution_02(path=path) == expected
-
