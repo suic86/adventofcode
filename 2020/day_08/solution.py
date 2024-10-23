@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 def read_program(path="input.data"):
     with open(path) as program_file:
         return parse_program(program_file.read())

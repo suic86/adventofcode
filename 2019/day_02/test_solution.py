@@ -18,7 +18,7 @@ def test_run_program(program, output):
 
 def test_solution_01():
     assert solution_01() == 3267740
-    
+
 
 def test_solution_02():
     assert solution_02() == 7870

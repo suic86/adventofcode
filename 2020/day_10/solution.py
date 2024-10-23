@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from collections import Counter
 from functools import reduce
 from itertools import groupby

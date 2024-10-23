@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from util import read_data, EMPTY, OCCUPIED
 
 

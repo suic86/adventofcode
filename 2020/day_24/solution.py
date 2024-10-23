@@ -38,7 +38,7 @@ def input_to_tiles(path="input.data"):
 def next_day(tiles):
     new_tiles = set()
 
-    for (q, r) in tiles:
+    for q, r in tiles:
         adj = sum((q + qd, r + rd) in tiles for qd, rd in ADJACENTS)
         if not (adj == 0 or adj > 2):
             new_tiles.add((q, r))
@@ -50,7 +50,7 @@ def next_day(tiles):
         if (adj := (q + qd, r + rd)) not in tiles
     }
 
-    for (q, r) in adjacents:
+    for q, r in adjacents:
         if sum((q + qd, r + rd) in tiles for qd, rd in ADJACENTS) == 2:
             new_tiles.add((q, r))
 
