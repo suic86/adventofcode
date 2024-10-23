@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from re import compile
 from collections import deque
 
@@ -30,7 +29,7 @@ def solution_01(path="input.data"):
             p = (p + v // 90) % 4
         elif d == "L":
             p = (p - v // 90) % 4
-    return abs(distances['N'] - distances['S']) + abs(distances['E'] - distances['W'])
+    return abs(distances["N"] - distances["S"]) + abs(distances["E"] - distances["W"])
 
 
 def solution_02(path="input.data"):

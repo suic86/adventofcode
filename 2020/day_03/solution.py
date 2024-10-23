@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 def parse_data(path):
     with open(path) as f:
         return list(map(str.rstrip, f))

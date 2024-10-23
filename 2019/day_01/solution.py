@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 def read_data(path="input.data"):
     with open(path) as fobj:
         for module in fobj:

@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 HALT = 99
 INSTRUCTION_SIZE = 4
 

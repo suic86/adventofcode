@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from functools import lru_cache
 from util import read_data, EMPTY, OCCUPIED
 

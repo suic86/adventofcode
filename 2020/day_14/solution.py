@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from itertools import product
 
 
@@ -34,7 +33,7 @@ def run_converter(path="input.data"):
     instructions = parse_instructions(read_data(path), parsed_mask=True)
     mask = None
     memory = {}
-    for (instruction, value) in instructions:
+    for instruction, value in instructions:
         if instruction not in ("mem", "mask"):
             raise ValueError("Invalid instruction.")
         if instruction == "mask":
@@ -68,7 +67,7 @@ def memory_address_decoder(path="input.data"):
     instructions = parse_instructions(read_data(path))
     mask = None
     memory = {}
-    for (instruction, value) in instructions:
+    for instruction, value in instructions:
         if instruction == "mask":
             mask = value
             continue
