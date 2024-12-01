@@ -5,10 +5,9 @@ from collections import Counter
 def parse_data(path="input.data"):
     with open(path) as fobj:
         ls, rs = [], []
-        for line in map(str.rstrip, fobj):
-            l, r = map(int, line.split())
-            ls.append(l)
-            rs.append(r)
+        for l, r in map(str.split, fobj):
+            ls.append(int(l))
+            rs.append(int(r))
         return ls, rs
 
 
