@@ -1,6 +1,6 @@
 from re import compile
 
-PARSER = compile(r"(?:(do\(\))|(don\'t\(\))|mul\((\d{1,3}),(\d{1,3})\))")
+PARSER = compile(r"(do\(\))|(don\'t\(\))|mul\((\d{1,3}),(\d{1,3})\)")
 
 
 def parse_data(path: str, parser=PARSER):
