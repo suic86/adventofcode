@@ -18,8 +18,8 @@ def test_solution_01(path, expected) -> None:
 @pytest.mark.parametrize(
     "path,expected",
     [
-        ("test_01.data", 0),
-        ("test_02.data", 0),
+        ("test_01.data", 45),
+        ("test_02.data", 64),
         ("input.data", 0),
     ],
 )
