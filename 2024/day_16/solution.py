@@ -45,32 +45,25 @@ def tiles(maze: list[str], start: tuple[int, int], end: tuple[int, int]) -> int:
     pq = []
     score = defaultdict(lambda: float("inf"))
     score[(sy, sx, 0, 1)] = 0
-    prev = defaultdict()
-    heappush(pq, (score[(sy, sx, 0, 1)], sy, sx, 0, 1))
+    heappush(pq, (score[(sy, sx, 0, 1)], sy, sx, 0, 1, {start}))
     visited = set()
-
+    best = set()
     while pq:
-        s, y, x, dy, dx = heappop(pq)
+        s, y, x, dy, dx, p = heappop(pq)
         visited.add((y, x, dy, dx))
         if x == ex and y == ey:
-            n = 0
-            t = end
-            while True:
-                if t not in prev:
-                    return n
-                n += 1
-                t = prev[t]
+            best |= p
         if not in_maze(y, x) or maze[y][x] == "#":
             continue
         if (ns := s + 1) < score[((ny := y + dy), (nx := x + dx), dy, dx)]:
             score[(ny, nx, dy, dx)] = ns
-            prev[(ny, nx)] = (y, x)
-            heappush(pq, (ns, ny, nx, dy, dx))
+            p.add((ny, nx))
+            heappush(pq, (ns, ny, nx, dy, dx, p))
         for ndy, ndx in [(dx, -dy), (-dx, dy)]:
             if (ns := s + 1000) < score[(y, x, ndy, ndx)]:
                 score[(y, x, ndy, ndx)] = ns
-                heappush(pq, (ns, y, x, ndy, ndx))
-    raise ValueError("Unreachable endpoint.")
+                heappush(pq, (ns, y, x, ndy, ndx, p))
+    return len(best)
 
 
 def start_end(maze: list[str]):
