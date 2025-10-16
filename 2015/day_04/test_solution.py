@@ -1,5 +1,4 @@
 import pytest
-
 from solution import advent_coin, solution_01, solution_02
 
 

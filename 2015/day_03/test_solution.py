@@ -1,5 +1,4 @@
 import pytest
-
 from solution import houses, parse_input, solution_01, solution_02
 
 

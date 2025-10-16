@@ -1,6 +1,5 @@
-from solution import load_data, position, position_with_aim, solution_01, solution_02
-
 import pytest
+from solution import load_data, position, position_with_aim, solution_01, solution_02
 
 TEST_PATH = [
     ("forward", 5),

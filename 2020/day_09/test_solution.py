@@ -1,6 +1,4 @@
 import pytest
-
-
 from solution import (
     contains_sum,
     first_non_matching,

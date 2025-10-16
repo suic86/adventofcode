@@ -1,6 +1,5 @@
-from solution import construction_time, load_data, solution_01, solution_02
-
 import pytest
+from solution import construction_time, load_data, solution_01, solution_02
 
 PARSED_DATA = {"A": {"C"}, "B": {"A"}, "D": {"A"}, "E": {"F", "B", "D"}, "F": {"C"}}
 

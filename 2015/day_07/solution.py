@@ -1,4 +1,4 @@
-from operator import and_, or_, rshift, lshift
+from operator import and_, lshift, or_, rshift
 
 MAXINT = 65535
 

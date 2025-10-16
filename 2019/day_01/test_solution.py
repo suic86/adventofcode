@@ -1,5 +1,4 @@
 import pytest
-
 from solution import fuel, solution_01, total_fuel
 
 

@@ -1,13 +1,13 @@
-import pytest
 from collections import Counter
 from itertools import islice
 
+import pytest
 from solution import (
     load_data,
     naive_step_gen,
+    optimized_step_gen,
     solution_01,
     solution_02,
-    optimized_step_gen,
 )
 
 

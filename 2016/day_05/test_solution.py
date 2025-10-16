@@ -1,5 +1,4 @@
 import pytest
-
 from hashes import FIRST_PART, SECOND_PART
 from solution import cinematic_hashes, hashes, solution_01, solution_02
 

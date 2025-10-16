@@ -1,6 +1,5 @@
 import pytest
-
-from solution import load_data, fold, solution_01, solution_02
+from solution import fold, load_data, solution_01, solution_02
 
 
 @pytest.fixture

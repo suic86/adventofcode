@@ -1,5 +1,4 @@
 import pytest
-
 from solution import draw_lines, load_data, solution_01, solution_02
 
 

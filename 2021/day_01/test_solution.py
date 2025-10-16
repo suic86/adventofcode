@@ -1,6 +1,5 @@
-from solution import depth_measurement_increases, solution_01, solution_02
-
 import pytest
+from solution import depth_measurement_increases, solution_01, solution_02
 
 MEASUREMENTS = [
     199,

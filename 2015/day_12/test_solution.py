@@ -1,6 +1,5 @@
-from solution import sum_numbers, sum_with_no_red, solution_01, solution_02
-
 import pytest
+from solution import solution_01, solution_02, sum_numbers, sum_with_no_red
 
 
 @pytest.mark.parametrize(

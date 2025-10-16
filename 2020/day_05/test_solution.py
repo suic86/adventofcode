@@ -1,5 +1,4 @@
 import pytest
-
 from solution import convert, seat, solution_01, solution_02
 
 

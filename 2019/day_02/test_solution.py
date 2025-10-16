@@ -1,5 +1,4 @@
 import pytest
-
 from solution import run_program, solution_01, solution_02
 
 

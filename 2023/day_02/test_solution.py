@@ -1,5 +1,4 @@
 import pytest
-
 from solution import parse_game, solution_01, solution_02
 
 

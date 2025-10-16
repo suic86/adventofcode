@@ -3,7 +3,6 @@ from itertools import chain, takewhile
 from operator import truth
 from re import compile
 
-
 FIELD_PARSER = compile(
     r"(?P<name>[a-z ]+): (?P<fl>\d{1,3})-(?P<fu>\d{1,3}) or (?P<sl>\d{1,3})-(?P<su>\d{1,3})"
 )

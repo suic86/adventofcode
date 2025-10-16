@@ -1,5 +1,4 @@
 import pytest
-
 from solution import basin_sizes, load_data, low_points, solution_01, solution_02
 
 

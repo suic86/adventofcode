@@ -1,6 +1,5 @@
-from re import compile
 from collections import deque
-
+from re import compile
 
 PARSER = compile(r"(?P<direction>[NSEWLRF])(?P<distance>\d+)")
 

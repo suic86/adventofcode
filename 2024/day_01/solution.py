@@ -1,5 +1,5 @@
-from operator import sub
 from collections import Counter
+from operator import sub
 
 
 def parse_data(path="input.data"):

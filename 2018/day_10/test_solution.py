@@ -1,7 +1,6 @@
+import pytest
 from data import PARSED
 from solution import find_message, load_data, solution_01, solution_02
-
-import pytest
 
 
 @pytest.fixture

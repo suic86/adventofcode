@@ -1,6 +1,6 @@
-import pytest
-
 from collections import Counter
+
+import pytest
 from solution import load_data, simulator, solution_01, solution_02
 
 

@@ -1,10 +1,5 @@
 import pytest
-from solution import (
-    calculate_distance,
-    calculate_points,
-    solution_01,
-    solution_02,
-)
+from solution import calculate_distance, calculate_points, solution_01, solution_02
 
 
 @pytest.mark.parametrize(

@@ -1,5 +1,4 @@
 import pytest
-
 from solution import (
     LBOUND,
     UBOUND,

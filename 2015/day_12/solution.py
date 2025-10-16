@@ -1,5 +1,5 @@
-from re import compile
 from json import load
+from re import compile
 
 NUMBER_PARSER = compile(r"-?\d+")
 

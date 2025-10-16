@@ -1,4 +1,4 @@
-from util import read_data, EMPTY, OCCUPIED
+from util import EMPTY, OCCUPIED, read_data
 
 
 def next_seat_state(current_seat, adjacent_seats):

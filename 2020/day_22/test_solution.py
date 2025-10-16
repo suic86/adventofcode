@@ -1,5 +1,6 @@
-import pytest
 from collections import deque
+
+import pytest
 from solution import play, play_recursive, read_data, score, solution_01, solution_02
 
 

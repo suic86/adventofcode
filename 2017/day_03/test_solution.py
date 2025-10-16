@@ -1,5 +1,5 @@
-from solution import distance, spiral, solution_01, solution_02
 import pytest
+from solution import distance, solution_01, solution_02, spiral
 
 
 @pytest.mark.parametrize(

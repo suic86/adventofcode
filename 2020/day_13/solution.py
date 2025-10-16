@@ -1,4 +1,4 @@
-from itertools import islice, count
+from itertools import count, islice
 
 
 def read_data(path="input.data"):

@@ -3,7 +3,6 @@ from functools import reduce
 from itertools import chain, product, starmap
 from operator import mul
 
-
 MONSTER = [
     "                  # ",
     "#    ##    ##    ###",

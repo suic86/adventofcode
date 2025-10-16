@@ -1,5 +1,5 @@
 import pytest
-from solution import read_data, next_state, solution_01, solution_02
+from solution import next_state, read_data, solution_01, solution_02
 
 test_solution_01_data = {
     (0, 1, 0),

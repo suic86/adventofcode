@@ -1,6 +1,5 @@
-from solution import solution_01, solution_02
-
 import pytest
+from solution import solution_01, solution_02
 
 
 @pytest.mark.parametrize("path,expected", [("test.data", 18), ("input.data", 2414)])

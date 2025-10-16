@@ -1,5 +1,4 @@
 import pytest
-
 from solution import encryption_key, loop_size, solution_01
 
 

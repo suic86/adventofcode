@@ -1,5 +1,5 @@
-from re import compile
 from operator import not_
+from re import compile
 
 INSTRUCTION_PARSER = compile(
     r"(?:turn )?(on|off|toggle) (\d+),(\d+) through (\d+),(\d+)"

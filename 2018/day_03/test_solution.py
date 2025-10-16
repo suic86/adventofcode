@@ -1,6 +1,5 @@
-from solution import parse_data, solution_01, solution_02
-
 import pytest
+from solution import parse_data, solution_01, solution_02
 
 PARSED_DATA = [
     (1, 1, 3, 4, 4),

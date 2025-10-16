@@ -1,5 +1,5 @@
-from solution import floor, first_time_basement, solution_01, solution_02
 import pytest
+from solution import first_time_basement, floor, solution_01, solution_02
 
 
 @pytest.mark.parametrize(

@@ -1,6 +1,6 @@
-import pytest
-
 from itertools import islice
+
+import pytest
 from solution import (
     detect_infinite_loop,
     parse_instruction,
@@ -11,7 +11,6 @@ from solution import (
     solution_01,
     solution_02,
 )
-
 
 TEST_DATA_SOLUTION_01 = """
         nop +0

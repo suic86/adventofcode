@@ -1,4 +1,4 @@
-from solution import load_board, evaluate_board, solution_01, solution_02
+from solution import evaluate_board, load_board, solution_01, solution_02
 
 
 def test_load_board_test_data():

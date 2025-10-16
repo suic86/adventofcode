@@ -1,6 +1,5 @@
 from re import compile
 
-
 PARSER = compile(r"\d+")
 
 

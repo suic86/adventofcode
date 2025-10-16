@@ -1,12 +1,5 @@
 import pytest
-
-
-from solution_01 import (
-    adjacent_seats,
-    next_area_state,
-    next_seat_state,
-    solution_01,
-)
+from solution_01 import adjacent_seats, next_area_state, next_seat_state, solution_01
 from util import EMPTY, FLOOR, OCCUPIED, load_test_generations
 
 

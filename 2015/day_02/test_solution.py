@@ -1,6 +1,5 @@
-from solution import ribbon, wrapping_paper, solution_01, solution_02
-
 import pytest
+from solution import ribbon, solution_01, solution_02, wrapping_paper
 
 
 @pytest.mark.parametrize("sides,expected", [((2, 3, 4), 58), ((1, 1, 10), 43)])

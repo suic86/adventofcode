@@ -1,14 +1,6 @@
 import pytest
-
-from test_solution_data import (
-    IMAGE_WITH_MONSTERS,
-)
-
-from solution import (
-    MONSTER,
-    count_monsters,
-    trim_borders,
-)
+from solution import MONSTER, count_monsters, trim_borders
+from test_solution_data import IMAGE_WITH_MONSTERS
 
 
 def test_trim_borders():

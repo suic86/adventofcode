@@ -3,9 +3,9 @@ from solution import (
     PARSER,
     input_to_tiles,
     next_day,
-    steps_to_tile,
     solution_01,
     solution_02,
+    steps_to_tile,
 )
 
 

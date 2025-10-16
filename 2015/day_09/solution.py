@@ -1,7 +1,6 @@
 from itertools import permutations
 from re import compile
 
-
 PARSER = compile(r"([a-zA-Z]+) to ([a-zA-Z]+) = (\d+)")
 
 

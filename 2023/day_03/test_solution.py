@@ -1,5 +1,4 @@
 import pytest
-
 from solution import Schema, gears, load_data, solution_01, solution_02, symbols
 
 

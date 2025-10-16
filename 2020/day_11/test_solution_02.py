@@ -1,14 +1,10 @@
 import pytest
-
-
 from solution_02 import (
-    next_area_state,
+    next_area_state,  # visible_adjacent_seats,
     next_seat_state,
     solution_02,
-    # visible_adjacent_seats,
 )
 from util import EMPTY, FLOOR, OCCUPIED, load_test_generations
-
 
 # TODO: Add test for visible_adjacent_seats
 

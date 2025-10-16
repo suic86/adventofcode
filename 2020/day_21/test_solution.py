@@ -1,5 +1,5 @@
 import pytest
-from solution import read_data, allergens_to_ingredients, solution_01, solution_02
+from solution import allergens_to_ingredients, read_data, solution_01, solution_02
 
 
 @pytest.fixture

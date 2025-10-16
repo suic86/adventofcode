@@ -1,5 +1,4 @@
 import pytest
-
 from solution import load_data, path_count, solution_01, solution_02
 
 

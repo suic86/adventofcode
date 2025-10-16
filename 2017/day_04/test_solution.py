@@ -1,6 +1,5 @@
-from solution import is_valid, solution_01, solution_02
-
 import pytest
+from solution import is_valid, solution_01, solution_02
 
 
 @pytest.mark.parametrize(

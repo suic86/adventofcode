@@ -1,10 +1,9 @@
 import pytest
-
 from solution import (
-    load_data,
     count_easy_digits,
-    decode_segments,
     decode_number,
+    decode_segments,
+    load_data,
     solution_01,
     solution_02,
 )

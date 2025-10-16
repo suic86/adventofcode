@@ -1,5 +1,4 @@
 import pytest
-
 from solution import Room, decrypt_name, is_real, load_data, solution_01, solution_02
 
 PARSED: list[Room] = [

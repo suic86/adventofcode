@@ -1,5 +1,4 @@
 import pytest
-
 from solution import aoc_hash, solution_01, solution_02, sort_lens
 
 

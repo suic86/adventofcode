@@ -1,14 +1,13 @@
 import pytest
-
 from solution import (
     count_all_bags,
     count_contained_bags,
     dependency_tree,
     parse_data,
     parse_rule,
+    rule_tree,
     solution_01,
     solution_02,
-    rule_tree,
 )
 
 

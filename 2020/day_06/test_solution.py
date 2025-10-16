@@ -1,4 +1,4 @@
-from solution import solution_01, solution_02, solution_01_old
+from solution import solution_01, solution_01_old, solution_02
 
 
 def test_solution_01_old():

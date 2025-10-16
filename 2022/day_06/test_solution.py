@@ -1,5 +1,4 @@
 import pytest
-
 from solution import find_marker, solution_01, solution_02
 
 

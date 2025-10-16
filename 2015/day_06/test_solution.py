@@ -1,3 +1,4 @@
+import pytest
 from solution import (
     count_lights,
     grid,
@@ -7,9 +8,6 @@ from solution import (
     solution_01,
     solution_02,
 )
-
-
-import pytest
 
 
 @pytest.mark.parametrize(

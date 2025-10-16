@@ -1,5 +1,4 @@
 import pytest
-
 from solution import is_nice_01, is_nice_02, solution_01, solution_02
 
 

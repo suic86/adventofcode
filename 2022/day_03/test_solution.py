@@ -1,5 +1,4 @@
 import pytest
-
 from solution import detect_character, solution_01, solution_02
 
 

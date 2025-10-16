@@ -1,7 +1,7 @@
 import pytest
 from solution import (
-    read_data,
     convert_to_regex,
+    read_data,
     solution_01,
     solution_02,
     solution_02_check,

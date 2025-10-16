@@ -1,5 +1,4 @@
 import pytest
-
 from solution import (
     interpolate,
     interpolate_part_2,

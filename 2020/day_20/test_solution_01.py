@@ -1,14 +1,6 @@
 import pytest
-from solution import (
-    is_match,
-    matching_tiles,
-    read_data,
-    solution_01,
-)
-from test_solution_data import (
-    MATCHING_TILES,
-    PARSED_TILES,
-)
+from solution import is_match, matching_tiles, read_data, solution_01
+from test_solution_data import MATCHING_TILES, PARSED_TILES
 
 
 def test_read_data():

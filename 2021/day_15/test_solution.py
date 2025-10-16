@@ -1,6 +1,5 @@
 import pytest
-
-from solution import load_data, solution_01, solution_02, scaled_grid_value
+from solution import load_data, scaled_grid_value, solution_01, solution_02
 
 
 @pytest.fixture

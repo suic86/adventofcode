@@ -1,6 +1,5 @@
-from solution import decode_alnum_code, decode_digit, solution_01, solution_02
-
 import pytest
+from solution import decode_alnum_code, decode_digit, solution_01, solution_02
 
 
 @pytest.mark.parametrize(

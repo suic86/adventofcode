@@ -1,4 +1,4 @@
-from collections import defaultdict, Counter
+from collections import Counter, defaultdict
 
 
 def load_data(path="input.data"):

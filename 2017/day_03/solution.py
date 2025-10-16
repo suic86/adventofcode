@@ -1,7 +1,6 @@
-from math import ceil, sqrt
 from itertools import islice
+from math import ceil, sqrt
 from urllib.request import urlopen
-
 
 PUZZLE_INPUT = 289326
 

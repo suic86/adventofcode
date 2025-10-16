@@ -1,5 +1,5 @@
-from solution import parse_row, parse_wires, solution_01, solution_02
 import pytest
+from solution import parse_row, parse_wires, solution_01, solution_02
 
 
 @pytest.mark.parametrize(

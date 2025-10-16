@@ -1,5 +1,4 @@
 import pytest
-
 from solution import parse_data, show_layout, solution_01, solution_02
 
 

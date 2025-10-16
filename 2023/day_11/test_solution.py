@@ -1,6 +1,5 @@
-from solution import parse_data, solution_01, solution_02, total_length
-
 import pytest
+from solution import parse_data, solution_01, solution_02, total_length
 
 # Expanded
 # [

@@ -1,7 +1,6 @@
 import pytest
-
-from test_solution_data import PARSED_TILES
 from solution import Tile
+from test_solution_data import PARSED_TILES
 
 
 @pytest.fixture

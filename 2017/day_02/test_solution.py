@@ -1,11 +1,10 @@
+import pytest
 from solution import (
     calculate_checksum,
     evenly_divisible_result,
     solution_01,
     solution_02,
 )
-
-import pytest
 
 SPREADSHEET_01 = [
     [5, 1, 9, 5],

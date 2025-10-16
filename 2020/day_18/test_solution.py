@@ -1,5 +1,4 @@
 import pytest
-
 from solution import evaluate, parse, solution_01, solution_02
 
 
