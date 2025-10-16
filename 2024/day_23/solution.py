@@ -1,12 +1,12 @@
 from collections import defaultdict
 
 
-def parse_data(path="input.data") -> list[tuple[str, str]]:
+def parse_data(path="input.data") -> list[tuple[str, ...]]:
     with open(path) as fobj:
         return [tuple(line.split("-")) for line in map(str.rstrip, fobj)]
 
 
-def networks(connections: list[tuple[int, int]]) -> int:
+def networks(connections: list[tuple[str, ...]]) -> int:
     g = defaultdict(set)
     for s, e in connections:
         g[s].add(e)
@@ -23,7 +23,7 @@ def networks(connections: list[tuple[int, int]]) -> int:
     )
 
 
-def password(connections: list[tuple[int, int]]) -> str:
+def password(connections: list[tuple[str, ...]]) -> str:
     g = defaultdict(set)
     for s, e in connections:
         g[s].add(e)
