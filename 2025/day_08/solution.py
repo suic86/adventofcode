@@ -5,9 +5,7 @@ from math import prod
 
 def parse_data(path="input.data"):
     with open(path) as fp:
-        return frozenset(
-            tuple(map(int, line.split(","))) for line in map(str.strip, fp)
-        )
+        return tuple(tuple(map(int, line.split(","))) for line in map(str.strip, fp))
 
 
 def distance_squared(t1, t2):
@@ -16,13 +14,11 @@ def distance_squared(t1, t2):
 
 @cache
 def shortest_distances(boxes):
-    distances = defaultdict(list)
-
-    for b1 in boxes:
-        for b2 in boxes:
-            if b1 != b2:
-                distances[distance_squared(b1, b2)].append((b1, b2))
-    return distances
+    return {
+        distance_squared(b1, b2): (b1, b2)
+        for i, b1 in enumerate(boxes)
+        for b2 in boxes[i + 1 :]
+    }
 
 
 def connected_components(graph):
@@ -52,7 +48,7 @@ def solution_01(path="input.data", shortest_n=1000, top_n=3):
     distances = shortest_distances(boxes)
     graph = defaultdict(set)
     for d in sorted(distances)[:shortest_n]:
-        b1, b2 = distances[d][0]
+        b1, b2 = distances[d]
         graph[b1].add(b2)
         graph[b2].add(b1)
     return prod(sorted(map(len, connected_components(graph)), reverse=True)[:top_n])
@@ -69,7 +65,7 @@ def solution_02(path="input.data"):
         return len(graph) == box_count and len(connected_components(graph)) == 1
 
     for d in sorted(distances):
-        b1, b2 = distances[d][0]
+        b1, b2 = distances[d]
         graph[b1].add(b2)
         graph[b2].add(b1)
         if is_one_circuit(graph):
