@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Mapping
+from typing import Callable, Mapping
 
 Graph = Mapping[str, set[str]]
 
@@ -19,48 +19,54 @@ def dfs(
     e: str,
     visited: set[str],
     current_path: list[str],
-    simple_paths: set[tuple],
-) -> None:
+    constraint: Callable[[list[str]], bool] | None = None,
+) -> int:
     if s in visited:
-        return
+        return 0
 
     visited.add(s)
     current_path.append(s)
 
     if s == e:
-        simple_paths.add(tuple(current_path))
         visited.remove(s)
         current_path.pop()
-        return
+        print(current_path)
+        return constraint is None or constraint(current_path)
 
-    for n in g[s]:
-        dfs(g, n, e, visited, current_path, simple_paths)
+    paths = sum(dfs(g, n, e, visited, current_path, constraint) for n in g[s])
 
     current_path.pop()
     visited.remove(s)
+    return paths
 
 
-def simple_paths(graph: Graph, start_node: str, end_node: str) -> set[tuple]:
-    paths = set()
+def simple_paths(
+    graph: Graph,
+    start_node: str,
+    end_node: str,
+    constraint: Callable[[list[str]], bool] | None = None,
+) -> int:
     current_path = []
     visited = set()
-    dfs(graph, start_node, end_node, visited, current_path, paths)
-    return paths
+    return dfs(
+        graph, start_node, end_node, visited, current_path, constraint=constraint
+    )
 
 
 def solution_01(path: str = "input.data") -> int:
     graph = parse_data(path)
-    ps = simple_paths(graph, "you", "out")
-    return len(ps)
+    return simple_paths(graph, "you", "out")
 
 
 def solution_02(path: str = "input.data") -> int:
     graph = parse_data(path)
-    ps = simple_paths(graph, "svr", "fft")
-    return sum("dac" in path and "fft" in path for path in ps)
+    return simple_paths(
+        graph, "svr", "out", constraint=lambda path: "fft" in path and "dac" in path
+    )
 
 
 if __name__ == "__main__":
     from pprint import pprint
 
-    pprint(solution_01("input.data"))
+    # pprint(solution_02("test_02.data"))
+    pprint(solution_02("input.data"))
