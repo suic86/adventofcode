@@ -18,7 +18,7 @@ def test_solution_01(path: str, expected: int) -> None:
     "path,expected",
     [
         ("test_02.data", 2),
-        # ("input.data", -1),
+        ("input.data", 294053029111296),
     ],
 )
 def test_solution_02(path: str, expected: int) -> None:

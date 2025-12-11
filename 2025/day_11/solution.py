@@ -1,4 +1,5 @@
-from collections import defaultdict, deque
+from collections import defaultdict
+from graphlib import TopologicalSorter
 from typing import Callable, Mapping
 
 Graph = Mapping[str, set[str]]
@@ -62,27 +63,8 @@ def invert_graph(graph: Graph):
 
 
 def count_path(graph: Graph, source, destination) -> int:
-    from pprint import pprint
 
-    in_degree = {k: len(v) for k, v in graph.items()}
-    for n in set.union(*graph.values()) - set(in_degree):
-        in_degree[n] = 0
-
-    pprint(in_degree)
-    pprint(graph)
-    q = deque()
-    for k, v in in_degree.items():
-        if v == 0:
-            q.append(k)
-
-    top_order = []
-    while q:
-        node = q.popleft()
-        top_order.append(node)
-        for ng in graph[node]:
-            in_degree[ng] -= 1
-            if in_degree[ng] == 0:
-                q.append(ng)
+    top_order = tuple(TopologicalSorter(invert_graph(graph)).static_order())
 
     ways = defaultdict(int)
     ways[source] = 1
@@ -100,13 +82,16 @@ def solution_01(path: str = "input.data") -> int:
 
 def solution_02(path: str = "input.data") -> int:
     graph = parse_data(path)
-    return simple_paths(
-        graph, "svr", "out", constraint=lambda path: "fft" in path and "dac" in path
-    )
+    sf = count_path(graph, "svr", "fft")
+    fd = count_path(graph, "fft", "dac")
+    do = count_path(graph, "dac", "out")
+
+    res = sf * fd * do
+    return res
 
 
 if __name__ == "__main__":
     from pprint import pprint
 
     # pprint(solution_02("test_02.data"))
-    pprint(solution_01("test.data"))
+    pprint(solution_01("input.data"))
