@@ -40,19 +40,27 @@ def dfs(
     visited.remove(s)
 
 
-def solution_01(path: str = "input.data") -> int:
-    graph = parse_data(path)
-    simple_paths = set()
+def simple_paths(graph: Graph, start_node: str, end_node: str) -> set[tuple]:
+    paths = set()
     current_path = []
     visited = set()
-    dfs(graph, "you", "out", visited, current_path, simple_paths)
-    from pprint import pprint
+    dfs(graph, start_node, end_node, visited, current_path, paths)
+    return paths
 
-    pprint(simple_paths)
-    return len(simple_paths)
+
+def solution_01(path: str = "input.data") -> int:
+    graph = parse_data(path)
+    ps = simple_paths(graph, "you", "out")
+    return len(ps)
+
+
+def solution_02(path: str = "input.data") -> int:
+    graph = parse_data(path)
+    ps = simple_paths(graph, "svr", "fft")
+    return sum("dac" in path and "fft" in path for path in ps)
 
 
 if __name__ == "__main__":
     from pprint import pprint
 
-    pprint(solution_01("test.data"))
+    pprint(solution_01("input.data"))
