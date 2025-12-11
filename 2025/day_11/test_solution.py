@@ -7,7 +7,7 @@ from solution import solution_01
     "path,expected",
     [
         ("test.data", 5),
-        # ("input.data", -1),
+        ("input.data", 796),
     ],
 )
 def test_solution_01(path: str, expected: int) -> None:

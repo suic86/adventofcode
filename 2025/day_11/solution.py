@@ -10,31 +10,46 @@ def parse_data(path: str = "input.data") -> Graph:
         for line in map(str.strip, fp):
             n, a = line.split(": ")
             data[n] = data[n].union(set(a.split()))
-            for e in a.split():
-                data[e].add(n)
     return data
 
 
 def dfs(
-    node: str, dest: str, graph: Graph, visited: set[str], count: list[int]
+    g: Graph,
+    s: str,
+    e: str,
+    visited: set[str],
+    current_path: list[str],
+    simple_paths: set[tuple],
 ) -> None:
-    if node == dest:
-        count[0] += 1
+    if s in visited:
         return
-    visited.add(node)
-    for ng in graph[node]:
-        if ng not in visited:
-            dfs(ng, dest, graph, visited, count)
 
-    visited.remove(node)
+    visited.add(s)
+    current_path.append(s)
+
+    if s == e:
+        simple_paths.add(tuple(current_path))
+        visited.remove(s)
+        current_path.pop()
+        return
+
+    for n in g[s]:
+        dfs(g, n, e, visited, current_path, simple_paths)
+
+    current_path.pop()
+    visited.remove(s)
 
 
 def solution_01(path: str = "input.data") -> int:
     graph = parse_data(path)
-    count = [0]
+    simple_paths = set()
+    current_path = []
     visited = set()
-    dfs("you", "out", graph, visited, count)
-    return count[0]
+    dfs(graph, "you", "out", visited, current_path, simple_paths)
+    from pprint import pprint
+
+    pprint(simple_paths)
+    return len(simple_paths)
 
 
 if __name__ == "__main__":
